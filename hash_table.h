@@ -5,7 +5,7 @@ typedef void *HashTable_t;
 
 HashTable_t create_hash_table(int size);
 
-void insert_hash_table(HashTable_t _hashTable, int value);
+void insert_hash(HashTable_t _hashTable, char *key, Info_t _info){
 
 unsigned long int hash_function(char *key, int size);
 

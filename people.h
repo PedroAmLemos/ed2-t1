@@ -3,7 +3,7 @@
 
 typedef void *People_t;
 
-People_t create_resident(char cpf[], char nome[], char sobrenome[], char nasc[], char sex);
+People_t create_people(char cpf[], char nome[], char sobrenome[], char sex, char nasc[]);
 
 char* get_cpf(People_t _people);
 
