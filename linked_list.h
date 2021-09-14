@@ -9,7 +9,7 @@ List_t create_list();
 
 void insert_list(List_t _list, Info_t _info);
 
-int get_list_size(List_t _list);
+__attribute__((unused)) int get_list_size(List_t _list);
 
 void remove_list(List_t *_list);
 

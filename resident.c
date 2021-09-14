@@ -22,7 +22,7 @@ Resident_t create_resident(char cpf[], char cep[], char face, int num, char comp
     return resident;
 }
 
-char* get_cpf(Resident_t _resident){
+char* get_resident_cpf(Resident_t _resident){
     Resident *resident = (Resident*) _resident;
     return resident->cpf;
 }

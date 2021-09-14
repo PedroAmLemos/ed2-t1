@@ -5,7 +5,7 @@ typedef void *People_t;
 
 People_t create_people(char cpf[], char nome[], char sobrenome[], char sex, char nasc[]);
 
-char* get_cpf(People_t _people);
+char* get_people_cpf(People_t _resident);
 
 char* get_nome(People_t _people);
 

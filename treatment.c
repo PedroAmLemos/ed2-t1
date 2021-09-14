@@ -31,8 +31,8 @@ void main_treatment(FILE *geoFile, FILE *qryFile, FILE *geoSVGFile, FILE *qrySVG
         pm_treat(people, residents, pmFile);
     }
 
-
-
-
-
+    if(pmFile){
+        remove_hash_table(people);
+        remove_hash_table(residents);
+    }
 }

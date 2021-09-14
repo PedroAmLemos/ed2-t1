@@ -22,8 +22,8 @@ People_t create_people(char cpf[], char nome[], char sobrenome[], char sex, char
     return people;
 }
 
-char* get_cpf(People_t _people){
-    People *people = (People*) _people;
+char* get_people_cpf(People_t _resident){
+    People *people = (People*) _resident;
     return people->cpf;
 }
 

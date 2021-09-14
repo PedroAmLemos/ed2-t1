@@ -41,12 +41,13 @@ void remove_list(List_t *_list){
     while (node != NULL) {
         aux = node;
         node = node->next;
+        free(aux->info);
         free(aux);
     }
     free(list);
 }
 
-int get_list_size(List_t _list){
+__attribute__((unused)) int get_list_size(List_t _list){
     List *list = (List*) _list;
     return list->size;
 }

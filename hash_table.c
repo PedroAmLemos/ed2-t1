@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "hash_table.h"
 #include "linked_list.h"
+#include "hash_table.h"
 
 typedef struct{
     int size;

@@ -1,11 +1,13 @@
 #ifndef HASH_TABLE_H_
 #define HASH_TABLE_H_
 
+#include "linked_list.h"
+
 typedef void *HashTable_t;
 
 HashTable_t create_hash_table(int size);
 
-void insert_hash(HashTable_t _hashTable, char *key, Info_t _info){
+void insert_hash(HashTable_t _hashTable, char *key, Info_t _info);
 
 unsigned long int hash_function(char *key, int size);
 
