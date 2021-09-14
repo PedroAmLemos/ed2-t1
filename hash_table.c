@@ -14,6 +14,11 @@ typedef struct{
     Info_t info;
 }Item;
 
+void remove_info(void *item_){
+    Item *item = (Item*) item_;
+    free(item->info);
+}
+
 HashTable_t create_hash_table(int size){
     Hash *hashTable = (Hash*) malloc(sizeof(Hash));
     int i;
@@ -62,7 +67,7 @@ void remove_hash_table(HashTable_t _hashTable){
     int i;
     List_t *lists = hashTable->table;
     for (i = 0; i < hashTable->size; i++) {
-        remove_list(lists[i]);
+        remove_hash_list(lists[i]);
     }
     free(lists);
     free(hashTable);

@@ -9,8 +9,10 @@ List_t create_list();
 
 void insert_list(List_t _list, Info_t _info);
 
-__attribute__((unused)) int get_list_size(List_t _list);
+int get_list_size(List_t _list);
 
 void remove_list(List_t *_list);
+
+void remove_hash_list(List_t *_list);
 
 #endif // LINKED_LIST_H_

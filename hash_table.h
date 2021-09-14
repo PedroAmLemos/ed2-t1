@@ -5,6 +5,8 @@
 
 typedef void *HashTable_t;
 
+void remove_info(void *item_);
+
 HashTable_t create_hash_table(int size);
 
 void insert_hash(HashTable_t _hashTable, char *key, Info_t _info);

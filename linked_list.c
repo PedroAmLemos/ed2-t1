@@ -1,4 +1,5 @@
 #include "linked_list.h"
+#include "hash_table.h"
 #include <stdlib.h>
 
 typedef struct Node{
@@ -34,13 +35,27 @@ void insert_list(List_t _list, Info_t _info){
     list->size++;
 }
 
-void remove_list(List_t *_list){
+__attribute__((unused)) void remove_list(List_t *_list){
     List *list = (List*) _list;
     Node *node = list->first;
     Node *aux;
     while (node != NULL) {
         aux = node;
         node = node->next;
+        free(aux->info);
+        free(aux);
+    }
+    free(list);
+}
+
+void remove_hash_list(List_t *_list){
+    List *list = (List*) _list;
+    Node *node = list->first;
+    Node *aux;
+    while (node != NULL) {
+        aux = node;
+        node = node->next;
+        remove_info(aux->info);
         free(aux->info);
         free(aux);
     }
