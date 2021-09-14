@@ -5,7 +5,7 @@
 
 typedef void *HashTable_t;
 
-void remove_info(void *item_);
+void delete_item(void *item_);
 
 HashTable_t create_hash_table(int size);
 
@@ -15,6 +15,6 @@ unsigned long int hash_function(char *key, int size);
 
 int get_table_size(HashTable_t *_hashtable);
 
-void remove_hash_table(HashTable_t _hashTable);
+void delete_hash_table(HashTable_t _hashTable, int flag);
 
 #endif // HASH_TABLE_H_

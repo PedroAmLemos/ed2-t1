@@ -80,7 +80,6 @@ void read(char *entryPath, char *geo, char *qry, char *outPath, char *pm){
     }
 
     main_treatment(geoFile, qryFile, geoSVGFile, qrySVGFile, qryTXTFile, pmFile);
-    printf("geoName: %s\ngeoPath: %s\noutPathGEO: %s\ngeoSVG: %s\n", geoName, geoPath, outPathGEO, geoSVG);
 
     /* ---Free mallocs and closing files--*/
     free(geoName);
@@ -90,7 +89,6 @@ void read(char *entryPath, char *geo, char *qry, char *outPath, char *pm){
     fclose(geoFile);
     fclose(geoSVGFile);
 
-    printf("qryName: %s\nqryPath: %s\nqrySVG: %s\nqryTXT: %s\n", qryName, qryPath, qrySVG, qryTXT);
     if(qryPath){
         free(qryName);
         free(qryPath);
@@ -101,7 +99,6 @@ void read(char *entryPath, char *geo, char *qry, char *outPath, char *pm){
         fclose(qryTXTFile);
     }
 
-    printf("pmPath: %s\n", pmPath);
     if(pmPath){
         free(pmPath);
         fclose(pmFile);

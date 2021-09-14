@@ -14,9 +14,10 @@ typedef struct{
     Info_t info;
 }Item;
 
-void remove_info(void *item_){
+void delete_item(void *item_){
     Item *item = (Item*) item_;
     free(item->info);
+    free(item);
 }
 
 HashTable_t create_hash_table(int size){
@@ -46,7 +47,7 @@ unsigned long int hash_function(char *_key, int size){
     return hash % size;
 }
 
-void insert_hash(HashTable_t _hashTable, char *key, Info_t _info){
+void insert_hash(HashTable_t _hashTable, char key[], Info_t _info){
     Hash *hashTable = (Hash*) _hashTable;
     unsigned long int hash = hash_function(key, hashTable->size);
 
@@ -62,12 +63,28 @@ int get_table_size(HashTable_t *_hashtable){
     return hashTable->size;
 }
 
-void remove_hash_table(HashTable_t _hashTable){
+void remove_item(HashTable_t _hashTable, char key[], int flag){
+    Hash *hashTable = (Hash*) _hashTable;
+    unsigned long int hashKey = hash_function(key, hashTable->size);
+    void (*carlos[2])(void*) = {free, delete_item};
+
+    for(Node_t aux = get_first(hashTable->table[hashKey]); aux != NULL; aux = get_next(aux)){
+        Item *item = (Item*) get_info(aux);
+        if(strcmp(item->key, key) == 0) {
+            remove_node(hashTable->table[hashKey], aux, carlos[flag]);
+            return;
+        }
+    }
+}
+
+
+void delete_hash_table(HashTable_t _hashTable, int flag){
+    void (*carlos[2])(void*) = {free, delete_item};
     Hash *hashTable = (Hash*)_hashTable;
     int i;
     List_t *lists = hashTable->table;
     for (i = 0; i < hashTable->size; i++) {
-        remove_hash_list(lists[i]);
+        remove_list(lists[i], carlos[flag]);
     }
     free(lists);
     free(hashTable);

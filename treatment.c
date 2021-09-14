@@ -1,6 +1,5 @@
 #include "treatment.h"
 #include <stdio.h>
-#include <stdlib.h>
 #include "string.h"
 #include "hash_table.h"
 #include "pm_treat.h"
@@ -31,8 +30,11 @@ void main_treatment(FILE *geoFile, FILE *qryFile, FILE *geoSVGFile, FILE *qrySVG
         pm_treat(people, residents, pmFile);
     }
 
+
+    // qry
+
     if(pmFile){
-        remove_hash_table(people);
-        remove_hash_table(residents);
+        delete_hash_table(people, 1);
+        delete_hash_table(residents, 1);
     }
 }
