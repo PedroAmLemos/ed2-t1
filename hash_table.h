@@ -4,6 +4,7 @@
 #include "linked_list.h"
 
 typedef void *HashTable_t;
+typedef void *Item_t;
 
 void delete_item(void *item_);
 

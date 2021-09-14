@@ -45,7 +45,8 @@ void remove_list(List_t *_list, void(*remove)(void*)){
     while (node != NULL) {
         aux = node;
         node = node->next;
-        remove(aux->info);
+        if(remove != NULL)
+            remove(aux->info);
         free(aux);
     }
     free(list);
