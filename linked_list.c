@@ -59,6 +59,7 @@ int get_list_size(List_t _list){
 
 Info_t get_info(Node_t node_){
     Node *list = (Node*) node_;
+
     return list->info;
 }
 

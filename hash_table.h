@@ -18,4 +18,5 @@ int get_table_size(HashTable_t *_hashtable);
 
 void delete_hash_table(HashTable_t _hashTable, int flag);
 
+
 #endif // HASH_TABLE_H_

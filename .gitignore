@@ -3,3 +3,4 @@
 /.idea
 *.o
 /cmake-build-wsl/
+/cmake-build-wsl-coverage/

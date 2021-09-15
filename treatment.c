@@ -5,6 +5,7 @@
 #include "pm_treat.h"
 #include "avl_tree.h"
 #include "block.h"
+#include "svg.h"
 
 void main_treatment(FILE *geoFile, FILE *qryFile, FILE *geoSVGFile, FILE *qrySVGFile, FILE *qryTXTFile, FILE *pmFile){
     int nx = 0;
@@ -34,6 +35,10 @@ void main_treatment(FILE *geoFile, FILE *qryFile, FILE *geoSVGFile, FILE *qrySVG
     }
 
     // print da arvore no svg
+    open_svg(geoSVGFile);
+    print_tree(get_tree_root(blocksTree), geoSVGFile, print_block);
+    close_svg(geoSVGFile);
+
 
     if(pmFile){
         people = create_hash_table(nx);

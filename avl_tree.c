@@ -1,30 +1,30 @@
 #include "avl_tree.h"
 #include <string.h>
 #include <stdlib.h>
-#include <stdio.h>
-typedef struct node {
+
+typedef struct TreeNode {
 
     List_t list;
     int height;
-    struct node* left;
-    struct node* right;
+    struct TreeNode* left;
+    struct TreeNode* right;
     double key;
     double lesserX;
     double biggerX;
 
-}NodeStruct;
+}TreeNode;
 
-typedef struct tree{
+typedef struct Tree{
 
     char type[20];
-    NodeStruct* root;
+    TreeNode* root;
     int size;
 
-}TreeStruct;
+}Tree;
 
 // Cria e retorna uma árvore
 AvlTree_t create_tree(char type[20]){
-    TreeStruct* new = (TreeStruct* ) malloc(sizeof(TreeStruct));
+    Tree* new = (Tree* ) malloc(sizeof(Tree));
 
     strcpy(new->type, type);
     new->root = NULL;
@@ -34,7 +34,7 @@ AvlTree_t create_tree(char type[20]){
 }
 
 // Encerra recursivamente nó por nó da árvore
-void delete_tree_nodes(NodeStruct* root){
+void delete_tree_nodes(TreeNode* root){
 
     if(root == NULL){
         return;
@@ -48,8 +48,8 @@ void delete_tree_nodes(NodeStruct* root){
 }
 
 // Encerra toda a árvore
-int delete_tree(AvlTree_t tree){
-    TreeStruct* treeAux = (TreeStruct* ) tree;
+int delete_tree(AvlTree_t tree_){
+    Tree* treeAux = (Tree* ) tree_;
 
     if(treeAux == NULL){
         return 0;
@@ -63,7 +63,7 @@ int delete_tree(AvlTree_t tree){
 }
 
 // Retorna a altura do nó, caso o nó não exista retorna -1
-int get_node_height(NodeStruct* node){
+int get_node_height(TreeNode* node){
     if(node == NULL){
         return -1;
     }else{
@@ -72,7 +72,7 @@ int get_node_height(NodeStruct* node){
 }
 
 // Retorna o fator de balanceamento;
-int get_node_factor(NodeStruct* node){
+int get_node_factor(TreeNode* node){
     return (int) labs(get_node_height(node->left) - get_node_height(node->right));
 }
 
@@ -86,8 +86,8 @@ int biggest(int x, int y){
 }
 
 // Rotaciona a arvore tipo esquerda esquerda
-void rotate_l_l(NodeStruct** root){
-    NodeStruct* node;
+void rotate_l_l(TreeNode** root){
+    TreeNode* node;
     node = (*root)->left;
 
     (*root)->left = node->right;
@@ -102,8 +102,8 @@ void rotate_l_l(NodeStruct** root){
 }
 
 // Rotaciona a arvore tipo direita direita
-void rotate_r_r(NodeStruct** root){
-    NodeStruct* node;
+void rotate_r_r(TreeNode** root){
+    TreeNode* node;
     node = (*root)->right;
 
     (*root)->right = node->left;
@@ -118,29 +118,29 @@ void rotate_r_r(NodeStruct** root){
 }
 
 // Rotaciona a arvore tipo Esquerda Direita
-void rotate_l_r(NodeStruct** root){
+void rotate_l_r(TreeNode** root){
     rotate_r_r(&(*root)->left);
     rotate_l_l(root);
 }
 
 // Rotaciona a arvore tipo Direita Esquerda
-void rotate_r_l(NodeStruct** root){
+void rotate_r_l(TreeNode** root){
     rotate_l_l(&(*root)->right);
     rotate_r_r(root);
 }
 
 // Função de inserção recursiva
-int insert_tree_util(NodeStruct** root, Info_t info, double key){
+int insert_tree_util(TreeNode** root, Info_t info, double key){
     int res;
     // Nó folha ou primeiro nó
     if(*root == NULL){
-        NodeStruct* new = (NodeStruct* ) malloc(sizeof(NodeStruct));
+        TreeNode* new = (TreeNode* ) malloc(sizeof(TreeNode));
         if(new == NULL){
             return 0;
         }
 
         new->list = create_list();
-        insert_list(new->list,info);
+        insert_list(new->list, info);
         new->left = NULL;
         new->right = NULL;
         new->height = 0;
@@ -152,7 +152,7 @@ int insert_tree_util(NodeStruct** root, Info_t info, double key){
         return 1;
     }
 
-    NodeStruct* this = *root;
+    TreeNode* this = *root;
 
 
     // Enquanto for passando pelos nós atualiza o maior e menor :)
@@ -199,7 +199,7 @@ int insert_tree_util(NodeStruct** root, Info_t info, double key){
 
 // Chama a função recursiva de inserir
 int insert_tree(AvlTree_t tree, Info_t info, double key){
-    TreeStruct* treeAux = (TreeStruct* ) tree;
+    Tree* treeAux = (Tree* ) tree;
     int aux = insert_tree_util(&treeAux->root, info, key);
 
     if(aux == 1){
@@ -211,9 +211,9 @@ int insert_tree(AvlTree_t tree, Info_t info, double key){
 }
 
 // Busca o menor nó
-NodeStruct* get_smallest(NodeStruct* this){
-    NodeStruct* node1 = this;
-    NodeStruct* node2 = this->left;
+TreeNode* get_smallest(TreeNode* this){
+    TreeNode* node1 = this;
+    TreeNode* node2 = this->left;
 
     while(node2 != NULL){
         node1 = node2;
@@ -224,9 +224,9 @@ NodeStruct* get_smallest(NodeStruct* this){
 }
 
 // Busca o maior nó
-NodeStruct* get_biggest(NodeStruct* this){
-    NodeStruct* node1 = this;
-    NodeStruct* node2 = this->right;
+TreeNode* get_biggest(TreeNode* this){
+    TreeNode* node1 = this;
+    TreeNode* node2 = this->right;
 
     while(node2 != NULL){
         node1 = node2;
@@ -237,7 +237,7 @@ NodeStruct* get_biggest(NodeStruct* this){
 }
 
 // Função de remoção recursiva
-int remove_tree_util(NodeStruct** root, double key){
+int remove_tree_util(TreeNode** root, double key){
     int res = 0;
     if(*root == NULL){
         return 0;
@@ -272,7 +272,7 @@ int remove_tree_util(NodeStruct** root, double key){
     // Se for igual ao valor do nó o remove e balanceia se precisar
     if(key == (*root)->key){
         if((*root)->left == NULL || (*root)->right == NULL){
-            NodeStruct* oldNode = *root;
+            TreeNode* oldNode = *root;
             if((*root)->left != NULL){
                 (*root) = (*root)->left;
             }else{
@@ -281,7 +281,7 @@ int remove_tree_util(NodeStruct** root, double key){
             remove_list(oldNode->list, 0);
             free(oldNode);
         }else{
-            NodeStruct* temp = get_smallest((*root)->right);
+            TreeNode* temp = get_smallest((*root)->right);
             (*root)->list = temp->list;
             remove_tree_util(&(*root)->right, (*root)->key);
             if(get_node_factor((*root)) >= 2){
@@ -296,8 +296,8 @@ int remove_tree_util(NodeStruct** root, double key){
     }
 
     // Caso remova o nó troca os maiores e menores
-    NodeStruct* big = get_biggest((*root)->right);
-    NodeStruct* small = get_smallest((*root)->left);
+    TreeNode* big = get_biggest((*root)->right);
+    TreeNode* small = get_smallest((*root)->left);
     (*root)->biggerX = big->key;
     (*root)->lesserX = small->key;
 
@@ -307,7 +307,7 @@ int remove_tree_util(NodeStruct** root, double key){
 
 // Chama a função recursiva de remover
 int remove_tree(AvlTree_t tree, double key){
-    TreeStruct* treeAux = (TreeStruct* ) tree;
+    Tree* treeAux = (Tree* ) tree;
     int aux = remove_tree_util(&treeAux->root, key);
 
     if(aux == 1){
@@ -318,7 +318,7 @@ int remove_tree(AvlTree_t tree, double key){
 }
 
 // Recursivamente busca com a key a lista com os valores
-List_t search_tree_util(NodeStruct* root, double key){
+List_t search_tree_util(TreeNode* root, double key){
     if(root == NULL){
         return  NULL;
     }
@@ -344,7 +344,34 @@ List_t search_tree_util(NodeStruct* root, double key){
 
 // Chama a função que retorna a lista
 List_t search_tree(AvlTree_t tree, double key){
-    TreeStruct* treeAux = (TreeStruct* ) tree;
+    Tree* treeAux = (Tree* ) tree;
 
     return search_tree_util(treeAux->root, key);
+}
+
+AvlTreeNode_t get_left(AvlTreeNode_t node_){
+    TreeNode* node = (TreeNode * ) node_;
+    return node->left;
+}
+
+AvlTreeNode_t get_right(AvlTreeNode_t node_){
+    TreeNode* node = (TreeNode * ) node_;
+    return node->right;
+}
+
+Info_t get_node_list(AvlTreeNode_t node_){
+    TreeNode* node = (TreeNode * ) node_;
+    return node->list;
+}
+
+void print_tree_node(AvlTreeNode_t node_, FILE *svgFile, void(*print)(void*, FILE*)){
+    TreeNode* node = (TreeNode * ) node_;
+    for(Node_t list_node = get_first(node->list); list_node != NULL; list_node = get_next(list_node)){
+         print(get_info(list_node), svgFile);
+    }
+}
+
+AvlTreeNode_t get_tree_root(AvlTree_t tree_){
+    Tree * tree = (Tree*) tree_;
+    return tree->root;
 }

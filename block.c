@@ -25,3 +25,23 @@ Block_t create_block(char cep[], double x, double y, double width, double height
 
     return block;
 }
+
+char *get_block_cep(Block_t block_) {
+    return "fazer";
+}
+
+double get_block_x(Block_t block_) {
+    Block *block = (Block*) block_;
+    return block->point[0];
+}
+
+double get_block_y(Block_t block_) {
+    Block *block = (Block*) block_;
+    return block->point[1];
+}
+
+void print_block(Block_t block_, FILE *svgFile) {
+    Block *block = (Block*) block_;
+    fprintf(svgFile,"\t<rect x=\"%f\" y=\"%f\" width=\"%f\" height=\"%f\" fill=\"%s\" opacity=\"0.5\" stroke=\"%s\" stroke-width=\"%s\"/>\n",
+            block->point[0], block->point[1], block->width, block->height, block->fill, block->stroke, block->sw);
+}

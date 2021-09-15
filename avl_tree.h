@@ -2,8 +2,11 @@
 #define AVL_TREE_H_
 
 #include "linked_list.h"
+#include <stdio.h>
 
 typedef void *AvlTree_t;
+
+typedef void *AvlTreeNode_t;
 
 /*
 Função: Dado uma árvore, um ponteiro para Info e uma chave, insere na árvore e balanceia-a.
@@ -24,7 +27,7 @@ Função: Dada uma árvore desaloca todos os nós e a própria árvore.
 Pré: void* para a árvore.
 Pós: Retorna 1 caso bem sucedido ou 0 para falha.
 */
-int delete_tree(AvlTree_t tree);
+int delete_tree(AvlTree_t tree_);
 
 /*
 Função: Cria uma estrutura de Árvore AVL e armazena o tipo;
@@ -39,4 +42,15 @@ Pré: void* para a árvore, double com valor
 Pós:
 */
 List_t search_tree(AvlTree_t tree, double key);
+
+AvlTree_t get_left(AvlTree_t node_);
+
+AvlTree_t get_right(AvlTree_t node_);
+
+Info_t get_node_list(AvlTreeNode_t node_);
+
+void print_tree_node(AvlTreeNode_t node_, FILE *svgFile, void(*print)(void*, FILE*));
+
+AvlTreeNode_t get_tree_root(AvlTree_t tree_);
+
 #endif //AVL_TREE_H_
