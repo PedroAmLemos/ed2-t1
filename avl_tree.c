@@ -364,14 +364,14 @@ Info_t get_node_list(AvlTreeNode_t node_){
     return node->list;
 }
 
-void print_tree_node(AvlTreeNode_t node_, FILE *svgFile, void(*print)(void*, FILE*)){
-    TreeNode* node = (TreeNode * ) node_;
-    for(Node_t list_node = get_first(node->list); list_node != NULL; list_node = get_next(list_node)){
-         print(get_info(list_node), svgFile);
-    }
-}
-
 AvlTreeNode_t get_tree_root(AvlTree_t tree_){
     Tree * tree = (Tree*) tree_;
     return tree->root;
+}
+
+void print_tree_node(AvlTreeNode_t node_, FILE *svgFile, void(*print)(void*, FILE*)){
+    TreeNode* node = (TreeNode * ) node_;
+    for(Node_t list_node = get_first(node->list); list_node != NULL; list_node = get_next(list_node)){
+        print(get_info(list_node), svgFile);
+    }
 }
