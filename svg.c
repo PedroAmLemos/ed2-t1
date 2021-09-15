@@ -17,3 +17,12 @@ void print_tree(AvlTreeNode_t node_, FILE *svgFile, void(*print)(void*, FILE*)){
     print_tree(get_left(node_), svgFile, print);
     print_tree(get_right(node_), svgFile, print);
 }
+
+void print_hash_table(HashTable_t hashTable_, FILE *svgFile, void(*print)(void*, FILE*)){
+    List_t *list =  get_table(hashTable_);
+    for(int i = 0; i < get_table_size(hashTable_); i++) {
+        for(Node_t listNode = get_first(list[i]); listNode != NULL; listNode = get_next(listNode)){
+            print(get_item_info(get_info(listNode)), svgFile);
+        }
+    }
+}

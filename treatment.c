@@ -36,7 +36,8 @@ void main_treatment(FILE *geoFile, FILE *qryFile, FILE *geoSVGFile, FILE *qrySVG
 
     // print da arvore no svg
     open_svg(geoSVGFile);
-    print_tree(get_tree_root(blocksTree), geoSVGFile, print_block);
+    // print_tree(get_tree_root(blocksTree), geoSVGFile, print_block);
+    print_hash_table(blocksTable, geoSVGFile, print_block);
     close_svg(geoSVGFile);
 
 

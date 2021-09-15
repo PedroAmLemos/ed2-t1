@@ -58,10 +58,10 @@ void insert_hash(HashTable_t _hashTable, char key[], Info_t _info){
     insert_list(hashTable->table[hash], info_s);
 }
 
-//int get_table_size(HashTable_t *_hashtable){
-//    Hash *hashTable = (Hash*)_hashtable;
-//    return hashTable->size;
-//}
+int get_table_size(HashTable_t *_hashtable){
+    Hash *hashTable = (Hash*)_hashtable;
+    return hashTable->size;
+}
 
 Item_t get_item(HashTable_t _hashtable, char key[]) {
     Hash *hashTable = (Hash*) _hashtable;
@@ -99,4 +99,14 @@ void delete_hash_table(HashTable_t _hashTable, int flag){
     }
     free(lists);
     free(hashTable);
+}
+
+List_t *get_table(HashTable_t _hashTable){
+    Hash *hashTable = (Hash*)_hashTable;
+    return hashTable->table;
+}
+
+void *get_item_info(Item_t _item){
+    HashTableItem *item = (HashTableItem *) _item;
+    return item->info;
 }
