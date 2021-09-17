@@ -48,8 +48,8 @@ void delete_tree_nodes(TreeNode* root){
 }
 
 // Encerra toda a árvore
-int delete_tree(AvlTree_t tree_){
-    Tree* treeAux = (Tree* ) tree_;
+int delete_tree(AvlTree_t _tree){
+    Tree* treeAux = (Tree* ) _tree;
 
     if(treeAux == NULL){
         return 0;
@@ -278,6 +278,7 @@ int remove_tree_util(TreeNode** root, double key){
             }else{
                 (*root) = (*root)->right;
             }
+
             remove_list(oldNode->list, 0);
             free(oldNode);
         }else{

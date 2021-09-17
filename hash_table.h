@@ -18,9 +18,14 @@ int get_table_size(HashTable_t *_hashtable);
 
 void delete_hash_table(HashTable_t _hashTable, int flag);
 
+void remove_item(HashTable_t _hashTable, char key[], int flag);
+
 List_t *get_table(HashTable_t _hashTable);
 
 void *get_item_info(Item_t _item);
 
+/* TODO função de remover da hash table com
+ *
+ */
 
 #endif // HASH_TABLE_H_

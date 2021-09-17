@@ -4,6 +4,7 @@
 #include "hash_table.h"
 #include "avl_tree.h"
 #include "block.h"
+#include "qry.h"
 #include "svg.h"
 #include "people.h"
 #include "resident.h"
@@ -37,6 +38,8 @@ void main_treatment(FILE *geoFile, FILE *qryFile, FILE *geoSVGFile, FILE *qrySVG
     AvlTree_t blocksTree = create_tree("Blocks");
     Block_t block = NULL;
 
+    printf("Lendo os arquivos...\n");
+    printf("Lendo o arquivo .geo...\n");
     fscanf(geoFile, "%s", aux);
     if((strcmp(aux,"nx"))==0) {
         fscanf(geoFile, "%d", &nx);
@@ -67,13 +70,16 @@ void main_treatment(FILE *geoFile, FILE *qryFile, FILE *geoSVGFile, FILE *qrySVG
 
 
     if(pmFile){
+        printf("Lendo o arquivo .pm...\n\n\n");
         people = create_hash_table(nx);
         residents = create_hash_table(nx);
         pm_treat(people, residents, pmFile);
     }
 
-
-    // qry
+    if(qryFile) {
+        printf("Lendo o arquivo qry...\n\n\n");
+        qry_treat(people, residents, blocksTree, blocksTable, qryFile, qrySVGFile, qryTXTFile);
+    }
 
     if(pmFile){
         delete_hash_table(people, 1);
