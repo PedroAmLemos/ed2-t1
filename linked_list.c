@@ -1,5 +1,4 @@
 #include "linked_list.h"
-#include "hash_table.h"
 #include <stdlib.h>
 
 typedef struct Node{
@@ -38,42 +37,7 @@ void insert_list(List_t _list, Info_t _info){
     list->size++;
 }
 
-void remove_list(List_t *_list, void(*remove)(void*)){
-    List *list = (List*) _list;
-    Node *node = list->first;
-    Node *aux;
-    while (node != NULL) {
-        aux = node;
-        node = node->next;
-        if(remove != NULL)
-            remove(aux->info);
-        free(aux);
-    }
-    free(list);
-}
-
-int get_list_size(List_t _list){
-    List *list = (List*) _list;
-    return list->size;
-}
-
-Info_t get_info(Node_t node_){
-    Node *list = (Node*) node_;
-
-    return list->info;
-}
-
-Node_t get_first(List_t _list){
-    List *list = (List*) _list;
-    return list->first;
-}
-
-Node_t get_next(Node_t node_){
-    Node *list = (Node*) node_;
-    return list->next;
-}
-
-void remove_node(List_t list_, Node_t node_, void (*remove)(void*)){
+void remove_list_node(List_t list_, Node_t node_, void (*remove)(void*)){
     List *list = (List*) list_;
     Node *node = (Node*) node_;
 
@@ -88,7 +52,42 @@ void remove_node(List_t list_, Node_t node_, void (*remove)(void*)){
         node->next->prev = node->prev;
     }
 
-    if(remove != NULL) remove(get_info(node));
+    if(remove != NULL) remove(get_list_info(node));
     free(node);
     list->size--;
+}
+
+void remove_list(List_t _list, void(*remove)(void*)){
+    List *list = (List*) _list;
+    Node *node = list->first;
+    Node *aux;
+    while (node != NULL) {
+        aux = node;
+        node = node->next;
+        if(remove != NULL)
+            remove(aux->info);
+        free(aux);
+    }
+    free(list);
+}
+
+Node_t get_list_first(List_t list_){
+    List *list = (List*) list_;
+    return list->first;
+}
+
+Node_t get_list_next(Node_t node_){
+    Node *list = (Node*) node_;
+    return list->next;
+}
+
+Info_t get_list_info(Node_t node_){
+    Node *list = (Node*) node_;
+
+    return list->info;
+}
+
+int get_list_size(List_t _list){
+    List *list = (List*) _list;
+    return list->size;
 }
