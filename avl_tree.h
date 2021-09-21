@@ -53,6 +53,8 @@ void print_tree_node(AvlTreeNode_t node_, FILE *svgFile, void(*print)(void*, FIL
 
 AvlTreeNode_t get_tree_root(AvlTree_t tree_);
 
+List_t get_tree_node_list(AvlTreeNode_t _avlTree, const double *point, double*(*get_point)(void*));
+
 
 /* TODO Fazer a função de remover node da árvore. Tem que percorrer a árvore, achar o node com o x da key informada,
  * percorrer a lista ate achar a o par key correspondente, e remover-lo, verificar se é o ultimo da lista, se sim,

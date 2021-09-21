@@ -14,7 +14,9 @@ void insert_hash(HashTable_t _hashTable, char *key, Info_t _info);
 
 unsigned long int hash_function(char *key, int size);
 
-int get_table_size(HashTable_t *_hashtable);
+int get_table_size(HashTable_t *_hashTable);
+
+List_t get_table_list(HashTable_t _hashTable, char *key);
 
 void delete_hash_table(HashTable_t _hashTable, int flag);
 
@@ -24,8 +26,6 @@ List_t *get_table(HashTable_t _hashTable);
 
 void *get_item_info(Item_t _item);
 
-/* TODO função de remover da hash table com
- *
- */
+Info_t get_info_from_key(HashTable_t _hashTable, char *key);
 
 #endif // HASH_TABLE_H_

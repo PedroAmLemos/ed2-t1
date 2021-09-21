@@ -1,14 +1,24 @@
 #ifndef BLOCK_H_
 #define BLOCK_H_
-
-typedef void *Block_t;
-
+#include "avl_tree.h"
+#include "block.h"
+#include "hash_table.h"
 #include <stdio.h>
+typedef void *Block_t;
 
 Block_t create_block(char cep[], double x, double y, double width, double height, char sw[], char stroke[], char fill[]);
 
 void print_block(Block_t block_, FILE *svgFile);
 
+char *get_block_cep(Block_t block_);
+
+double get_block_x(Block_t block_);
+
+double get_block_y(Block_t block_);
+
+double *get_block_point(Block_t _block);
+
+void remove_block(HashTable_t hashTable, AvlTree_t _tree, void(*remover)(void*, void*, void*, int), void *parameter);
 /*
  * TODO Void remove block
  * vai receber a árvore e a hash table de blocks, e uma function pointer pra remover_tree ou remove_hash_table, e um

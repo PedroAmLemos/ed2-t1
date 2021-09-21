@@ -58,16 +58,25 @@ void insert_hash(HashTable_t _hashTable, char key[], Info_t _info){
     insert_list(hashTable->table[hash], info_s);
 }
 
-int get_table_size(HashTable_t *_hashtable){
-    Hash *hashTable = (Hash*)_hashtable;
+int get_table_size(HashTable_t *_hashTable){
+    Hash *hashTable = (Hash*)_hashTable;
     return hashTable->size;
+}
+
+List_t get_table_list(HashTable_t _hashTable, char *key){
+    Hash *hashTable = (Hash*)_hashTable;
+    unsigned long int hashKey = hash_function(key, hashTable->size);
+    if(hashKey >= hashTable->size){
+        return NULL;
+    }
+    return hashTable->table[hashKey];
 }
 
 Item_t get_item(HashTable_t _hashtable, char key[]) {
     Hash *hashTable = (Hash*) _hashtable;
     unsigned long int hashKey = hash_function(key, hashTable->size);
-    for(Node_t aux = get_first(hashTable->table[hashKey]); aux != NULL; aux = get_next(aux)){
-        HashTableItem *item = (HashTableItem*) get_info(aux);
+    for(Node_t aux = get_list_first(hashTable->table[hashKey]); aux != NULL; aux = get_list_next(aux)){
+        HashTableItem *item = (HashTableItem*) get_list_info(aux);
         if(strcmp(item->key, key) == 0) {
             return item->info;
         }
@@ -80,10 +89,10 @@ void remove_item(HashTable_t _hashTable, char key[], int flag){
     unsigned long int hashKey = hash_function(key, hashTable->size);
     void (*carlos[2])(void*) = {free, delete_item};
 
-    for(Node_t aux = get_first(hashTable->table[hashKey]); aux != NULL; aux = get_next(aux)){
-        HashTableItem *item = (HashTableItem*) get_info(aux);
+    for(Node_t aux = get_list_first(hashTable->table[hashKey]); aux != NULL; aux = get_list_next(aux)){
+        HashTableItem *item = (HashTableItem*) get_list_info(aux);
         if(strcmp(item->key, key) == 0) {
-            remove_node(hashTable->table[hashKey], aux, carlos[flag]);
+            remove_list_node(hashTable->table[hashKey], aux, carlos[flag]);
             return;
         }
     }
@@ -109,4 +118,27 @@ List_t *get_table(HashTable_t _hashTable){
 void *get_item_info(Item_t _item){
     HashTableItem *item = (HashTableItem *) _item;
     return item->info;
+}
+
+
+char *get_item_key(Item_t _item){
+    HashTableItem *item = (HashTableItem*) _item;
+    return item->key;
+}
+
+Info_t get_info_from_key(HashTable_t _hashTable, char *key){
+    Hash *hashTable = (Hash*)_hashTable;
+    List_t keyList = get_table_list(hashTable, key);
+    Item_t item;
+    if (keyList == NULL){
+        return NULL;
+    }
+    for(Node_t node = get_list_first(keyList); node != NULL; node = get_list_next(node)){
+        item = get_list_info(node);
+        if(strcmp(get_item_key(item), key) == 0){
+            return get_item_info(item);
+        }
+    }
+    return NULL;
+
 }

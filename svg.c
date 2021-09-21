@@ -21,8 +21,8 @@ void print_tree(AvlTreeNode_t node_, FILE *svgFile, void(*print)(void*, FILE*)){
 void print_hash_table(HashTable_t hashTable_, FILE *svgFile, void(*print)(void*, FILE*)){
     List_t *list =  get_table(hashTable_);
     for(int i = 0; i < get_table_size(hashTable_); i++) {
-        for(Node_t listNode = get_first(list[i]); listNode != NULL; listNode = get_next(listNode)){
-            print(get_item_info(get_info(listNode)), svgFile);
+        for(Node_t listNode = get_list_first(list[i]); listNode != NULL; listNode = get_list_next(listNode)){
+            print(get_item_info(get_list_info(listNode)), svgFile);
         }
     }
 }

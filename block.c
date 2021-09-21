@@ -27,7 +27,8 @@ Block_t create_block(char cep[], double x, double y, double width, double height
 }
 
 char *get_block_cep(Block_t block_) {
-    return "fazer";
+    Block *block = (Block*) block_;
+    return block->cep;
 }
 
 double get_block_x(Block_t block_) {
@@ -40,8 +41,16 @@ double get_block_y(Block_t block_) {
     return block->point[1];
 }
 
+double *get_block_point(Block_t _block){
+    Block *block = (Block*) _block;
+    return block->point;
+}
+
 void print_block(Block_t block_, FILE *svgFile) {
     Block *block = (Block*) block_;
     fprintf(svgFile,"\t<rect x=\"%f\" y=\"%f\" width=\"%f\" height=\"%f\" fill=\"%s\" opacity=\"0.5\" stroke=\"%s\" stroke-width=\"%s\"/>\n",
             block->point[0], block->point[1], block->width, block->height, block->fill, block->stroke, block->sw);
+}
+void remove_block(HashTable_t _hashTable, AvlTree_t _tree, void(*remove)(void*, void*, void*, int), void *parameter){
+    remove(_hashTable, _tree, parameter, 1);
 }

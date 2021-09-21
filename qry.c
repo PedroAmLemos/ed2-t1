@@ -5,6 +5,7 @@ void del(HashTable_t _residents, HashTable_t _blockTable, AvlTree_t _blockTree, 
     // TODO: remover a quadra cep
     // TODO: remover os moradores que residem em cep
     // TODO: remover as ofertas de locação
+    //remover
 
 }
 

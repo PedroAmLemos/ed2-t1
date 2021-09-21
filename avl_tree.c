@@ -332,7 +332,7 @@ List_t search_tree_util(TreeNode* root, double key){
         return NULL;
     }
 
-    List_t aux;
+    List_t aux = NULL;
 
     if(key > root->key){
         aux = search_tree_util(root->right, key);
@@ -372,7 +372,22 @@ AvlTreeNode_t get_tree_root(AvlTree_t tree_){
 
 void print_tree_node(AvlTreeNode_t node_, FILE *svgFile, void(*print)(void*, FILE*)){
     TreeNode* node = (TreeNode * ) node_;
-    for(Node_t list_node = get_first(node->list); list_node != NULL; list_node = get_next(list_node)){
-        print(get_info(list_node), svgFile);
+    for(Node_t list_node = get_list_first(node->list); list_node != NULL; list_node = get_list_next(list_node)){
+        print(get_list_info(list_node), svgFile);
     }
+}
+
+
+List_t get_tree_node_list(AvlTreeNode_t _avlTree, const double *point, double*(*get_point)(void*)){
+    double x = point[0];
+    double y = point[1];
+    double *nodeListInfoPoint;
+    List_t nodeList = search_tree(_avlTree, x);
+    for(Node_t node = get_list_first(nodeList); node != NULL; node = get_list_next(node)) {
+         nodeListInfoPoint = get_point(get_list_info(node));
+         if(x == nodeListInfoPoint[0] && y == nodeListInfoPoint[1]){
+             return get_list_info(node);
+         }
+    }
+    return NULL;
 }
