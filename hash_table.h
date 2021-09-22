@@ -28,4 +28,6 @@ void *get_item_info(Item_t _item);
 
 Info_t get_info_from_key(HashTable_t _hashTable, char *key);
 
+List_t get_index_list(HashTable_t _hashTable, int index);
+
 #endif // HASH_TABLE_H_

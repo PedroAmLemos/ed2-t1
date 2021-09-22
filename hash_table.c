@@ -143,3 +143,11 @@ Info_t get_info_from_key(HashTable_t _hashTable, char *key){
     return NULL;
 
 }
+
+List_t get_index_list(HashTable_t _hashTable, int index){
+    Hash *hashTable = (Hash*)_hashTable;
+    if(hashTable->table[index] != NULL){
+        return hashTable->table[index];
+    }
+    return NULL;
+}
