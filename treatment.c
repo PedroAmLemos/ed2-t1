@@ -7,6 +7,7 @@
 #include "qry.h"
 #include "svg.h"
 #include "people.h"
+#include "wrapper.h"
 #include "resident.h"
 
 void pm_treat(HashTable_t people_, HashTable_t residents_, FILE *pmFile){
@@ -38,8 +39,6 @@ void main_treatment(FILE *geoFile, FILE *qryFile, FILE *geoSVGFile, FILE *qrySVG
     AvlTree_t blocksTree = create_tree("Blocks");
     Block_t block = NULL;
 
-    printf("Lendo os arquivos...\n");
-    printf("Lendo o arquivo .geo...\n");
     fscanf(geoFile, "%s", aux);
     if((strcmp(aux,"nx"))==0) {
         fscanf(geoFile, "%d", &nx);
@@ -64,13 +63,11 @@ void main_treatment(FILE *geoFile, FILE *qryFile, FILE *geoSVGFile, FILE *qrySVG
 
     // print da arvore no svg
     open_svg(geoSVGFile);
-    // print_tree(get_tree_root(blocksTree), geoSVGFile, print_block);
-    print_hash_table(blocksTable, geoSVGFile, print_block);
+    print_tree(get_tree_root(blocksTree), geoSVGFile, print_block);
     close_svg(geoSVGFile);
 
 
     if(pmFile){
-        printf("Lendo o arquivo .pm...\n\n\n");
         people = create_hash_table(nx);
         residents = create_hash_table(nx);
         pm_treat(people, residents, pmFile);

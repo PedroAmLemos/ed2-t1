@@ -23,18 +23,18 @@ Pós: Retorna 1 caso bem sucedido ou 0 para falha.
 int remove_tree(AvlTree_t tree, double key);
 
 /*
-Função: Dada uma árvore desaloca todos os nós e a própria árvore.
-Pré: void* para a árvore.
-Pós: Retorna 1 caso bem sucedido ou 0 para falha.
-*/
-int delete_tree(AvlTree_t _tree);
-
-/*
 Função: Cria uma estrutura de Árvore AVL e armazena o tipo;
 Pré: char[20] com o que vai ser armazenado. Ex: "Retangulo";
 Pós: Retorna um void* com o endereço da árvore.
 */
 AvlTree_t create_tree(char type[20]);
+
+/*
+Função: Dada uma árvore desaloca todos os nós e a própria árvore.
+Pré: void* para a árvore.
+Pós: Retorna 1 caso bem sucedido ou 0 para falha.
+*/
+int delete_tree(AvlTree_t _tree);
 
 /*
 Função: Busca e recupera a lista com todos os dados correspondete a key
@@ -43,23 +43,26 @@ Pós:
 */
 List_t search_tree(AvlTree_t tree, double key);
 
+void print_tree_node(AvlTreeNode_t node_, FILE *svgFile, void(*print)(void*, FILE*));
+
+AvlTreeNode_t get_tree_root(AvlTree_t tree_);
+
 AvlTree_t get_left(AvlTree_t node_);
 
 AvlTree_t get_right(AvlTree_t node_);
 
 Info_t get_node_list(AvlTreeNode_t node_);
 
-void print_tree_node(AvlTreeNode_t node_, FILE *svgFile, void(*print)(void*, FILE*));
+void remove_tree_fp(AvlTree_t _avlTree, const double *point);
 
-AvlTreeNode_t get_tree_root(AvlTree_t tree_);
-
-List_t get_tree_node_list(AvlTreeNode_t _avlTree, const double *point, double*(*get_point)(void*));
+List_t get_tree_node_list_info(AvlTreeNode_t _avlTree, const double *point, double*(*get_point)(void*));
 
 
 /* TODO Fazer a função de remover node da árvore. Tem que percorrer a árvore, achar o node com o x da key informada,
  * percorrer a lista ate achar a o par key correspondente, e remover-lo, verificar se é o ultimo da lista, se sim,
  * remover o node da árvore e fazer os devidos balanceamentos
  * importante lembrar que o deslocamento acontece na hash table
+ * TODO revisar as comparações de números para comparar número reais
  * */
 
 
