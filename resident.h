@@ -25,4 +25,6 @@ char* get_resident_compl(Resident_t _resident);
 
 List_t get_cep_residents(HashTable_t _residentTable, char *cep);
 
+void change_resident_address(Resident_t _resident, char *newCEP, char *newCPF, char face, int num, char *compl);
+
 #endif //RESIDENT_H_

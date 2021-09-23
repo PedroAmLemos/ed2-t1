@@ -86,3 +86,12 @@ List_t get_cep_residents(HashTable_t _residentTable, char *cep) {
     }
     return idListToRemove;
 }
+
+void change_resident_address(Resident_t _resident, char *newCEP, char *newCPF, char face, int num, char *compl){
+    Resident *resident = (Resident*) _resident;
+    strcpy(resident->cep, newCEP);
+    strcpy(resident->cpf, newCPF);
+    strcpy(resident->compl, compl);
+    resident->face = face;
+    resident->num = num;
+}

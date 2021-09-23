@@ -51,7 +51,7 @@ void print_block(Block_t block_, FILE *svgFile) {
     if(block == NULL){
         return;
     }
-    fprintf(svgFile,"\t<rect x=\"%f\" y=\"%f\" width=\"%f\" height=\"%f\" fill=\"%s\" opacity=\"0.5\" stroke=\"%s\" stroke-width=\"%s\"/>\n",
+    fprintf(svgFile,"\t<rect x=\"%f\" y=\"%f\" width=\"%f\" height=\"%f\" fill=\"%s\" opacity=\"0.8\" stroke=\"%s\" stroke-width=\"%s\"/>\n",
             block->point[0], block->point[1], block->width, block->height, block->fill, block->stroke, block->sw);
 }
 void remove_block(HashTable_t _hashTable, AvlTree_t _tree, void(*remove)(void*, void*, void*, int), void *parameter){

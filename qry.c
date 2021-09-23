@@ -89,8 +89,31 @@ void dm(HashTable_t _residents, HashTable_t _people, HashTable_t _blocksTable, c
             get_resident_cep(resident), get_resident_number(resident), get_resident_face(resident), get_resident_compl(resident));
 }
 
+void mud(HashTable_t _residents, HashTable_t _people, HashTable_t _blocksTable, char cpf[], char cep[], char face, int num, char compl[], FILE *qryTXTFile, FILE *qrySVGFile){
+    Resident_t resident = get_item(_residents, cpf);
+    People_t person = get_item(_people, cpf);
+    Block_t oldBlock = get_item(_blocksTable, get_resident_cep(resident));
+    Block_t newBlock = get_item(_blocksTable, cep);
+
+    fprintf(qryTXTFile, "nome e sobrenome: %s %s, sexo: %c, cpf: %s, data de nascimento: %s\nEndereço antigo: cep: %s, face: %c, num: %d, complemento: %s ",
+            get_person_name(person), get_person_sobrenome(person), get_resident_face(resident), get_resident_cpf(resident),
+            get_person_nasc(person), get_resident_cep(resident), get_resident_face(resident), get_resident_number(resident),
+            get_resident_compl(resident));
+    fprintf(qrySVGFile, "\t<circle cx=\"%.2lf\" cy=\"%.2lf\" r=\"10\" stroke=\"white\" fill=\"red\" stroke-width=\"5px\"/>\n", (get_block_x(oldBlock) + get_block_width(oldBlock)/2), (get_block_y(oldBlock) +
+                                                                                                                                                                                      get_block_height(oldBlock)/2));
+    fprintf(qrySVGFile, "\t<line x1=\"%.2lf\" y1=\"%.2lf\" ", (get_block_x(oldBlock) + get_block_width(oldBlock)/2), (get_block_y(oldBlock) +
+            get_block_height(oldBlock)/2));
+    change_resident_address(resident, cep, cpf, face, num, compl);
+    fprintf(qryTXTFile, "Endereço novo: cep: %s, face: %c, num: %d, complemento: %s\n", get_resident_cep(resident),
+            get_resident_face(resident), get_resident_number(resident), get_resident_compl(resident));
+    fprintf(qrySVGFile, "x2=\"%.2lf\" y2=\"%.2lf\" stroke=\"red\" fill=\"red\" stroke-width=\"5px\"/>\n", (get_block_x(newBlock) + get_block_width(newBlock)/2), (get_block_y(newBlock) + get_block_height(newBlock)/2));
+    fprintf(qrySVGFile, "\t<circle cx=\"%.2lf\" cy=\"%.2lf\" r=\"10\" stroke=\"white\" fill=\"blue\" stroke-width=\"5px\"/>\n", (get_block_x(newBlock) + get_block_width(newBlock)/2), (get_block_y(newBlock) +
+                                                                                                                                                                                       get_block_height(newBlock)/2));
+}
+
 void qry_treat(HashTable_t _people, HashTable_t _residents, HashTable_t _blocksTable, AvlTree_t _blocksTree, FILE *qryFile, FILE *qrySVGFile, FILE *qryTXTFile){
-    char aux[5], cep[25], cpf[20];
+    char aux[5], cep[25], cpf[20], face, compl[25];
+    int num;
     open_svg(qrySVGFile);
     HashTable_t propertyLeaseTable = NULL;
 
@@ -113,6 +136,14 @@ void qry_treat(HashTable_t _people, HashTable_t _residents, HashTable_t _blocksT
             dm(_residents, _people, _blocksTable, cpf, qryTXTFile, qrySVGFile);
             fprintf(qryTXTFile, "\n\n");
         }
+        if(strcmp(aux, "mud") == 0){
+            fprintf(qryTXTFile, "mud\n");
+            fscanf(qryFile, "%s %s %c %d %s", cpf, cep, &face, &num, compl);
+            mud(_residents, _people, _blocksTable, cpf, cep, face, num, compl, qryTXTFile, qrySVGFile);
+            fprintf(qryTXTFile, "\n\n");
+        }
+
+
 
     }
     print_tree(get_tree_root(_blocksTree), qrySVGFile, print_block);
