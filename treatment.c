@@ -21,7 +21,7 @@ void pm_treat(HashTable_t people_, HashTable_t residents_, FILE *pmFile){
         if((strcmp(aux,"p")) == 0){
             fscanf(pmFile, "%s %s %s %c %s", cpf, nome, sobrenome, &sex, nasc);
             People_t people = create_people(cpf, nome, sobrenome, sex, nasc);
-            insert_hash(people_, get_people_cpf(people), people);
+            insert_hash(people_, get_person_cpf(people), people);
         }
         if((strcmp(aux,"m")) == 0) {
             fscanf(pmFile, "%s %s %s %d %s", cpf, cep, &face, &num, compl);

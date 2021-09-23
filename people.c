@@ -22,27 +22,27 @@ People_t create_people(char cpf[], char nome[], char sobrenome[], char sex, char
     return people;
 }
 
-char* get_people_cpf(People_t _resident){
+char* get_person_cpf(People_t _resident){
     People *people = (People*) _resident;
     return people->cpf;
 }
 
-char* get_nome(People_t _people){
+char* get_person_name(People_t _people){
     People *people = (People*) _people;
     return people->nome;
 }
 
-char* get_sobrenome(People_t _people){
+char* get_person_sobrenome(People_t _people){
     People *people = (People*) _people;
     return people->sobrenome;
 }
 
-char* get_nasc(People_t _people){
+char* get_person_nasc(People_t _people){
     People *people = (People*) _people;
     return people->nasc;
 }
 
-char get_sex(People_t _people){
+char get_person_sex(People_t _people){
     People *people = (People*) _people;
     return people->sex;
 }

@@ -9,6 +9,12 @@ Resident_t create_resident(char cpf[], char cep[], char face, int num, char comp
 
 char* get_resident_cpf(Resident_t _resident);
 
+void change_resident_to_rent(Resident_t _resident);
+
+void change_resident_from_rent(Resident_t _resident);
+
+int is_person_renting(Resident_t _resident);
+
 char* get_resident_cep(Resident_t _resident);
 
 char get_resident_face(Resident_t _resident);
