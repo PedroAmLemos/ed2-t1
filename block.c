@@ -83,3 +83,11 @@ char *get_block_fill(Block_t _block) {
     return block->fill;
 }
 
+void print_block_txt(Block_t _block, FILE *qryTXTFile){
+    Block *block = (Block *) _block;
+    fprintf(qryTXTFile, "cep: %s\nponto: x = %.2lf, y = %.2lf\nlargura = %.2lf, altura = %.2lf\nespessura da borda: "
+                        "%s, cor de preenchimento: %s, cor da borda: %s\n\n", block->cep, block->point[0], block->point[1], block->width,
+                        block->height, block->sw, block->fill, block->stroke);
+
+}
+

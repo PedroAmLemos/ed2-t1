@@ -27,3 +27,7 @@ void remove_tree_hash_table(HashTable_t _hashTable, AvlTree_t _tree, Int_t _poin
         }
     }
 }
+
+void print_person_resident_txt(Resident_t _resident, People_t _person, FILE *txtFile){
+    fprintf(txtFile, "\nNome e sobrenome: %s %s, sexo: %c, cpf: %s, data de nascimento: %s\nEndereço: cep: %s, face: %c, numero: %d, complemento: %s\n", get_person_name(_person), get_person_sobrenome(_person), get_person_sex(_person), get_person_cpf(_person), get_person_nasc(_person), get_resident_cep(_resident), get_resident_face(_resident), get_resident_number(_resident), get_resident_compl(_resident));
+}
