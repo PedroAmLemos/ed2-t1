@@ -9,13 +9,13 @@ Resident_t create_resident(char cpf[], char cep[], char face, int num, char comp
 
 char* get_resident_cpf(Resident_t _resident);
 
-char* get_cep(Resident_t _resident);
+char* get_resident_cep(Resident_t _resident);
 
-char get_face(Resident_t _resident);
+char get_resident_face(Resident_t _resident);
 
-int get_num(Resident_t _resident);
+int get_resident_number(Resident_t _resident);
 
-char* get_compl(Resident_t _resident);
+char* get_resident_compl(Resident_t _resident);
 
 List_t get_cep_residents(HashTable_t _residentTable, char *cep);
 

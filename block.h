@@ -19,6 +19,16 @@ double get_block_y(Block_t block_);
 double *get_block_point(Block_t _block);
 
 void remove_block(HashTable_t hashTable, AvlTree_t _tree, void(*remover)(void*, void*, void*, int), void *parameter);
+
+double get_block_width(Block_t _block);
+
+double get_block_height(Block_t _block);
+
+char *get_block_sw(Block_t _block);
+
+char *get_block_stroke(Block_t _block);
+
+char *get_block_fill(Block_t _block);
 /*
  * TODO Void remove block
  * vai receber a árvore e a hash table de blocks, e uma function pointer pra remover_tree ou remove_hash_table, e um

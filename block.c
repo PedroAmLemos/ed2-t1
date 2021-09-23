@@ -57,3 +57,29 @@ void print_block(Block_t block_, FILE *svgFile) {
 void remove_block(HashTable_t _hashTable, AvlTree_t _tree, void(*remove)(void*, void*, void*, int), void *parameter){
     remove(_hashTable, _tree, parameter, 1);
 }
+
+double get_block_width(Block_t _block){
+    Block *block = (Block*) _block;
+    return block->width;
+}
+
+double get_block_height(Block_t _block){
+    Block *block = (Block*) _block;
+    return block->height;
+}
+
+char *get_block_sw(Block_t _block){
+    Block *block = (Block*) _block;
+    return block->sw;
+}
+
+char *get_block_stroke(Block_t _block){
+    Block *block = (Block*) _block;
+    return block->stroke;
+}
+
+char *get_block_fill(Block_t _block) {
+    Block *block = (Block *) _block;
+    return block->fill;
+}
+

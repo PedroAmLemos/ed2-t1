@@ -36,6 +36,31 @@ char *get_property_id(Lease_t _property) {
     return property->id;
 }
 
+char *get_property_compl(Lease_t _property){
+    Lease *property = (Lease*) _property;
+    return property->compl;
+}
+
+char get_property_side(Lease_t _property){
+    Lease *property = (Lease*) _property;
+    return property->side;
+}
+
+int get_property_number(Lease_t _property){
+    Lease *property = (Lease*) _property;
+    return property->num;
+}
+
+double get_property_ar(Lease_t _property){
+    Lease *property = (Lease*) _property;
+    return property->ar;
+}
+
+double get_property_v(Lease_t _property){
+    Lease *property = (Lease*) _property;
+    return property->v;
+}
+
 List_t get_lease_ids(HashTable_t _property, char *cep){
     Lease *property = (Lease*) _property;
     List_t propertyToRemove = create_list();

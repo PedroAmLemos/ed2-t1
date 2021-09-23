@@ -28,22 +28,22 @@ char* get_resident_cpf(Resident_t _resident){
     return resident->cpf;
 }
 
-char* get_cep(Resident_t _resident){
+char* get_resident_cep(Resident_t _resident){
     Resident *resident = (Resident*) _resident;
     return resident->cep;
 }
 
-char get_face(Resident_t _resident){
+char get_resident_face(Resident_t _resident){
     Resident *resident = (Resident*) _resident;
     return resident->face;
 }
 
-int get_num(Resident_t _resident){
+int get_resident_number(Resident_t _resident){
     Resident *resident = (Resident*) _resident;
     return resident->num;
 }
 
-char* get_compl(Resident_t _resident) {
+char* get_resident_compl(Resident_t _resident) {
     Resident *resident = (Resident*) _resident;
     return resident->compl;
 }
@@ -65,7 +65,7 @@ List_t get_cep_residents(HashTable_t _residentTable, char *cep) {
         if(tableList != NULL){
             for(Node_t node = get_list_first(tableList); node != NULL; node = get_list_next(node)){
 
-                if(strcmp(get_cep(get_item_info(get_list_info(node))), cep) == 0){
+                if(strcmp(get_resident_cep(get_item_info(get_list_info(node))), cep) == 0){
                     insert_list(idListToRemove, get_resident_cpf(get_item_info(get_list_info(node))));
                 }
             }

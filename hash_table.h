@@ -30,4 +30,6 @@ Info_t get_info_from_key(HashTable_t _hashTable, char *key);
 
 List_t get_index_list(HashTable_t _hashTable, int index);
 
+Item_t get_item(HashTable_t _hashtable, char key[]);
+
 #endif // HASH_TABLE_H_
