@@ -74,4 +74,10 @@ List_t get_lease_ids(HashTable_t _property, char *cep){
     return propertyToRemove;
 }
 
+void print_property(Lease_t *_property, FILE *TXTFile){
+    Lease *property = (Lease*) _property;
+    fprintf(TXTFile, "Dados da locação: cep: %s, id: %s, face: %c, num: %d, complemento: %s, area: %.2lf e valor: %.2lf\n",
+            property->cep, property->id, property->side, property->num, property->compl, property->ar, property->v);
+
+}
 

@@ -3,7 +3,7 @@
 
 void open_svg(FILE *svgFile){
     fprintf(svgFile, "<!-- Pedro Antonio Messias Lemos -->\n");
-    fprintf(svgFile, "<svg version=\"1.1\" baseProfile=\"full\" width=\"10000\" height=\"10000\" xmlns=\"http://www.w3.org/2000/svg\">\n");
+    fprintf(svgFile, "<svg version=\"1.1\" baseProfile=\"full\" width=\"15000\" height=\"15000\" xmlns=\"http://www.w3.org/2000/svg\">\n");
 }
 
 void close_svg(FILE *svgFile) {
@@ -39,4 +39,8 @@ void print_text(double x, double y, char text[], FILE *svgFile){
 
 void print_circle(double cx, double cy, double r, char stroke[], char fill[], char sw[], FILE *svgFile){
     fprintf(svgFile, "\t<circle cx=\"%.2lf\" cy=\"%.2lf\" r=\"%.2f\" stroke=\"%s\" fill=\"%s\" stroke-width=\"%s\"/>\n", cx, cy, r, stroke, fill, sw);
+}
+
+void print_rectangle_dashed(double x, double y, double w, double h, FILE *svgFile){
+    fprintf(svgFile,"\t<rect x=\"%f\" y=\"%f\" width=\"%f\" height=\"%f\" opacity=\"0.8\" fill=\"none\" stroke=\"black\" stroke-width=\"3px\" stroke-dasharray=\"20\"/>\n", x, y, w, h);
 }

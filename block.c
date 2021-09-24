@@ -91,3 +91,13 @@ void print_block_txt(Block_t _block, FILE *qryTXTFile){
 
 }
 
+int is_block_inside_rect(Block_t _block, double x2, double y2, double w2, double h2){
+    Block *block = (Block *) _block;
+    double x1, y1, w1, h1;
+    x1 = block->point[0];
+    y1 = block->point[1];
+    w1 = block->width;
+    h1 = block->height;
+    return x1 >= x2 && y1 >= y2 && x1 + w1 <= x2 + w2 && y1 + h1 <= y2 + h2;
+}
+

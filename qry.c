@@ -109,11 +109,52 @@ void mud(HashTable_t _residents, HashTable_t _people, HashTable_t _blocksTable, 
     print_circle(cx, cy, 10.0, "white", "red", "5px", qrySVGFile);
 }
 
+void oloc(HashTable_t propertyLeaseTable, char id[], char cep[], char side, int num, char compl[], double ar, double v){
+    Lease_t newLease = create_lease(id, cep, compl, side, num, ar, v);
+    insert_hash(propertyLeaseTable, id, newLease);
+}
+
+void oloc_i(HashTable_t propertyLeaseTable, HashTable_t _blocksTable, double x, double y, double w, double h, FILE *qryTXTFile, FILE *qrySVGFile){
+    char face;
+    List_t propertyLeaseList = NULL;
+    Block_t block = NULL;
+    Lease_t property = NULL;
+    print_rectangle_dashed(x, y, w, h, qrySVGFile);
+    for (int i = 0; i < get_table_size(propertyLeaseTable); ++i) {
+        propertyLeaseList = get_index_list(propertyLeaseTable, i);
+        for(Node_t node = get_list_first(propertyLeaseList); node != NULL; node = get_list_next(node)){
+            property = get_item_info(get_list_info(node));
+            block = get_info_from_key(_blocksTable, get_property_cep(property));
+            if(block != NULL){
+                if(is_block_inside_rect(block, x, y, w, h)){
+                    print_property(property, qryTXTFile);
+                    print_rectangle_dashed(x, y, w, h, qrySVGFile);
+                    face = get_property_side(property);
+                    if(face == 'N'){
+                        print_text(get_block_x(block) + get_block_width(block)/2, get_block_y(block) + get_block_height(block), "*", qrySVGFile);
+                    }
+                    else if(face == 'S'){
+                        print_text(get_block_x(block) + get_block_width(block)/2, get_block_y(block) + 20, "*", qrySVGFile);
+                    }
+                    else if(face == 'L'){
+                        print_text(get_block_x(block) + 8, get_block_y(block) + get_block_height(block) * 0.6, "*", qrySVGFile);
+                    }
+                    else if(face == 'O'){
+                        print_text(get_block_x(block) + get_block_width(block) - 10, get_block_y(block) + get_block_height(block) * 0.6, "*", qrySVGFile);
+                    }
+                }
+            }
+        }
+    }
+
+}
+
 void qry_treat(HashTable_t _people, HashTable_t _residents, HashTable_t _blocksTable, AvlTree_t _blocksTree, FILE *qryFile, FILE *qrySVGFile, FILE *qryTXTFile){
-    char aux[5], cep[25], cpf[20], face, compl[25];
+    char aux[5], cep[25], cpf[20], side, compl[25], id[50];
+    double ar, v, x, y, w, h;
     int num;
     open_svg(qrySVGFile);
-    HashTable_t propertyLeaseTable = NULL;
+    HashTable_t propertyLeaseTable = create_hash_table(1117);
 
     while(fscanf(qryFile, "%s", aux) != EOF){
         if(strcmp(aux, "del") == 0) {
@@ -136,14 +177,26 @@ void qry_treat(HashTable_t _people, HashTable_t _residents, HashTable_t _blocksT
         }
         if(strcmp(aux, "mud") == 0){
             fprintf(qryTXTFile, "mud\n");
-            fscanf(qryFile, "%s %s %c %d %s", cpf, cep, &face, &num, compl);
-            mud(_residents, _people, _blocksTable, cpf, cep, face, num, compl, qryTXTFile, qrySVGFile);
+            fscanf(qryFile, "%s %s %c %d %s", cpf, cep, &side, &num, compl);
+            mud(_residents, _people, _blocksTable, cpf, cep, side, num, compl, qryTXTFile, qrySVGFile);
             fprintf(qryTXTFile, "\n\n");
+        }
+        if(strcmp(aux, "oloc") == 0){
+            fprintf(qryTXTFile, "oloc\n");
+            fscanf(qryFile, "%s %s %c %d %s %lf %lf", id, cep, &side, &num, compl, &ar, &v);
+            oloc(propertyLeaseTable, id, cep, side, num, compl, ar, v);
+        }
+        if(strcmp(aux, "oloc?") == 0){
+            fprintf(qryTXTFile, "oloc?\n");
+            fscanf(qryFile, "%lf %lf %lf %lf", &x, &y, &w, &h);
+            oloc_i(propertyLeaseTable, _blocksTable, x, y,w, h, qryTXTFile, qrySVGFile);
+
         }
 
 
 
     }
+    delete_hash_table(propertyLeaseTable, 1);
     print_tree(get_tree_root(_blocksTree), qrySVGFile, print_block);
     close_svg(qrySVGFile);
 

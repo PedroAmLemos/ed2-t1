@@ -31,6 +31,10 @@ char *get_block_stroke(Block_t _block);
 char *get_block_fill(Block_t _block);
 
 void print_block_txt(Block_t _block, FILE *qryTXTFile);
+
+int is_block_inside_rect(Block_t _block, double x, double y, double w, double h);
+
+
 /*
  * TODO Void remove block
  * vai receber a árvore e a hash table de blocks, e uma function pointer pra remover_tree ou remove_hash_table, e um

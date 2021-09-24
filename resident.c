@@ -70,7 +70,6 @@ List_t get_cep_residents(HashTable_t _residentTable, char *cep) {
     if(_residentTable == NULL){
         return idListToRemove;
     }
-    HashTable_t *table = get_table(_residentTable);
     int tableSize = get_table_size(_residentTable);
 
     List_t tableList;
