@@ -137,16 +137,78 @@ void oloc_i(HashTable_t propertyLeaseTable, HashTable_t _blocksTable, double x, 
                         print_text(get_block_x(block) + get_block_width(block)/2, get_block_y(block) + 20, "*", qrySVGFile);
                     }
                     else if(face == 'L'){
-                        print_text(get_block_x(block) + 8, get_block_y(block) + get_block_height(block) * 0.6, "*", qrySVGFile);
+                        print_text(get_block_x(block) + 8, get_block_y(block) + get_block_height(block) * 0.5, "*", qrySVGFile);
                     }
                     else if(face == 'O'){
-                        print_text(get_block_x(block) + get_block_width(block) - 10, get_block_y(block) + get_block_height(block) * 0.6, "*", qrySVGFile);
+                        print_text(get_block_x(block) + get_block_width(block) - 10, get_block_y(block) + get_block_height(block) * 0.5, "*", qrySVGFile);
                     }
                 }
             }
         }
     }
 
+}
+
+void loc(HashTable_t _blocksTable, HashTable_t _people, HashTable_t _residents, HashTable_t propertyLeaseTable, char id[], char cpf[], FILE *qryTXTFile, FILE *qrySVGFile){
+    Lease_t property = get_item(propertyLeaseTable, id);
+    People_t person = get_item(_people, cpf);
+    Resident_t resident = create_resident(cpf, get_property_cep(property), get_property_side(property), get_property_number(property), get_property_compl(property));
+    Block_t block = get_item(_blocksTable, get_property_cep(property));
+    change_resident_to_rent(resident);
+    insert_hash(_residents, cpf, resident);
+    change_property_status(property, 1);
+    print_property(property, qryTXTFile);
+    print_person_resident_txt(resident, person, qryTXTFile);
+    char face = get_property_side(property);
+    if(face == 'N'){
+        print_line(get_block_x(block) + get_block_width(block)/2, get_block_y(block) + get_block_height(block),
+                   get_block_x(block) + get_block_width(block)/2, 10, "black", qrySVGFile);
+        fprintf(qrySVGFile, "\t<text x=\"%.2f\" y=\"%.2f\">Nome e sobrenome: %s %s, sexo: %c, cpf: %s, data de nascimento: %s</text>\n",
+                get_block_x(block) + get_block_width(block)/2, 10.0,
+                get_person_name(person), get_person_sobrenome(person), get_person_sex(person), get_person_cpf(person),
+                get_person_nasc(person));
+        fprintf(qrySVGFile, "\t<text x=\"%.2f\" y=\"%.2f\">Dados da locação: cep: %s, id: %s, face: %c, num: %d, complemento: %s, area: %.2lf e valor: %.2lf</text>\n",
+                get_block_x(block) + get_block_width(block)/2, 10.0, get_property_cep(property), get_property_id(property),
+                get_property_side(property), get_property_number(property), get_property_compl(property), get_property_ar(property),
+                get_property_v(property));
+    }
+    else if(face == 'S'){
+        print_line(get_block_x(block) + get_block_width(block)/2, get_block_y(block) + 20,
+                   get_block_x(block) + get_block_width(block)/2, 10, "black", qrySVGFile);
+        fprintf(qrySVGFile, "\t<text x=\"%.2f\" y=\"%.2f\">Nome e sobrenome: %s %s, sexo: %c, cpf: %s, data de nascimento: %s</text>\n",
+                get_block_x(block) + get_block_width(block)/2, 10.0,
+                get_person_name(person), get_person_sobrenome(person), get_person_sex(person), get_person_cpf(person),
+                get_person_nasc(person));
+        fprintf(qrySVGFile, "\t<text x=\"%.2f\" y=\"%.2f\">Dados da locação: cep: %s, id: %s, face: %c, num: %d, complemento: %s, area: %.2lf e valor: %.2lf</text>\n",
+                get_block_x(block) + get_block_width(block)/2, 10.0, get_property_cep(property), get_property_id(property),
+                get_property_side(property), get_property_number(property), get_property_compl(property), get_property_ar(property),
+                get_property_v(property));
+    }
+    else if(face == 'L'){
+        print_line(get_block_x(block) + 8, get_block_y(block) + get_block_height(block) * 0.5,
+                   get_block_x(block) + 8, 10, "black", qrySVGFile);
+        fprintf(qrySVGFile, "\t<text x=\"%.2f\" y=\"%.2f\">Nome e sobrenome: %s %s, sexo: %c, cpf: %s, data de nascimento: %s</text>\n",
+                get_block_x(block) + 8, 10.0,
+                get_person_name(person), get_person_sobrenome(person), get_person_sex(person), get_person_cpf(person),
+                get_person_nasc(person));
+        fprintf(qrySVGFile, "\t<text x=\"%.2f\" y=\"%.2f\">Dados da locação: cep: %s, id: %s, face: %c, num: %d, complemento: %s, area: %.2lf e valor: %.2lf</text>\n",
+                get_block_x(block) + get_block_width(block)/2, 10.0, get_property_cep(property), get_property_id(property),
+                get_property_side(property), get_property_number(property), get_property_compl(property), get_property_ar(property),
+                get_property_v(property));
+    }
+    else if(face == 'O'){
+        print_line(get_block_x(block) + get_block_width(block) - 10, get_block_y(block) + get_block_height(block) * 0.5,
+                   get_block_x(block) + get_block_width(block) - 10, 10, "black", qrySVGFile);
+        fprintf(qrySVGFile, "\t<text x=\"%.2f\" y=\"%.2f\">Nome e sobrenome: %s %s, sexo: %c, cpf: %s, data de nascimento: %s</text>\n",
+                get_block_x(block) + get_block_width(block) - 10 + 8, 10.0,
+                get_person_name(person), get_person_sobrenome(person), get_person_sex(person), get_person_cpf(person),
+                get_person_nasc(person));
+        fprintf(qrySVGFile, "\t<text x=\"%.2f\" y=\"%.2f\">Dados da locação: cep: %s, id: %s, face: %c, num: %d, complemento: %s, area: %.2lf e valor: %.2lf</text>\n",
+                get_block_x(block), 10.0, get_property_cep(property), get_property_id(property),
+                get_property_side(property), get_property_number(property), get_property_compl(property), get_property_ar(property),
+                get_property_v(property));
+    }
+    fprintf(qryTXTFile, "\n");
 }
 
 void qry_treat(HashTable_t _people, HashTable_t _residents, HashTable_t _blocksTable, AvlTree_t _blocksTree, FILE *qryFile, FILE *qrySVGFile, FILE *qryTXTFile){
@@ -190,7 +252,11 @@ void qry_treat(HashTable_t _people, HashTable_t _residents, HashTable_t _blocksT
             fprintf(qryTXTFile, "oloc?\n");
             fscanf(qryFile, "%lf %lf %lf %lf", &x, &y, &w, &h);
             oloc_i(propertyLeaseTable, _blocksTable, x, y,w, h, qryTXTFile, qrySVGFile);
-
+        }
+        if(strcmp(aux, "loc") == 0){
+            fprintf(qryTXTFile, "\nloc\n");
+            fscanf(qryFile, "%s %s", id, cpf);
+             loc(_blocksTable, _people, _residents, propertyLeaseTable, id, cpf, qryTXTFile, qrySVGFile);
         }
 
 

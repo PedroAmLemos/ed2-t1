@@ -23,6 +23,8 @@ double get_property_ar(Lease_t _property);
 
 double get_property_v(Lease_t _property);
 
+void change_property_status(Lease_t _property, int status);
+
 void print_property(Lease_t *_property, FILE *TXTFile);
 
 #endif //PROPERTY_LEASE_H_

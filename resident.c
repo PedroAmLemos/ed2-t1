@@ -7,7 +7,7 @@ typedef struct Resident {
     char cpf[20];
     char cep[25];
     char face;
-    int rent;
+    int rented;
     int num;
     char compl[25];
 }Resident;
@@ -19,7 +19,7 @@ Resident_t create_resident(char cpf[], char cep[], char face, int num, char comp
     strcpy(resident->cep, cep);
     resident->face = face;
     resident->num = num;
-    resident->rent = 0;
+    resident->rented = 0;
     strcpy(resident->compl, compl);
 
     return resident;
@@ -32,17 +32,17 @@ char* get_resident_cpf(Resident_t _resident){
 
 void change_resident_to_rent(Resident_t _resident){
     Resident *resident = (Resident*) _resident;
-    resident->rent = 1;
+    resident->rented = 1;
 }
 
 void change_resident_from_rent(Resident_t _resident){
     Resident *resident = (Resident*) _resident;
-    resident->rent = 0;
+    resident->rented = 0;
 }
 
 int is_person_renting(Resident_t _resident){
     Resident *resident = (Resident*) _resident;
-    return resident->rent == 1;
+    return resident->rented == 1;
 }
 
 char* get_resident_cep(Resident_t _resident){

@@ -10,10 +10,12 @@ typedef struct {
     int num;
     double ar;
     double v;
+    int status;
 
 
 }Lease;
 
+// 0 não alugada, 1 alugada
 Lease_t create_lease(char id[50], char cep[25], char compl[50], char side, int number, double ar, double v){
     Lease *newLease = (Lease*) malloc(sizeof(Lease));
     strcpy(newLease->cep, cep);
@@ -23,6 +25,7 @@ Lease_t create_lease(char id[50], char cep[25], char compl[50], char side, int n
     newLease->num=number;
     newLease->ar=ar;
     newLease->v=v;
+    newLease->status = 0;
     return newLease;
 }
 
@@ -59,6 +62,11 @@ double get_property_ar(Lease_t _property){
 double get_property_v(Lease_t _property){
     Lease *property = (Lease*) _property;
     return property->v;
+}
+
+void change_property_status(Lease_t _property, int status){
+    Lease *property = (Lease*) _property;
+    property->status = status;
 }
 
 List_t get_lease_ids(HashTable_t _property, char *cep){
