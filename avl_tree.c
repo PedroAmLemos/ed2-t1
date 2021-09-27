@@ -17,17 +17,15 @@ typedef struct TreeNode {
 
 typedef struct Tree{
 
-    char type[20];
     TreeNode* root;
     int size;
 
 }Tree;
 
 // Cria e retorna uma árvore
-AvlTree_t create_tree(char type[20]){
+AvlTree_t create_tree(){
     Tree* new = (Tree* ) malloc(sizeof(Tree));
 
-    strcpy(new->type, type);
     new->root = NULL;
     new->size = 0;
 

@@ -6,7 +6,7 @@
 
 typedef void *City_t;
 
-City_t create_city();
+City_t create_city(int nx);
 
 void insert_city_people_table(City_t  _city, HashTable_t _people);
 
