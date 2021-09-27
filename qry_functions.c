@@ -8,7 +8,12 @@
 #include <string.h>
 #include <stdio.h>
 
-void del(HashTable_t _residents, HashTable_t _blockTable, HashTable_t _propertyTable, AvlTree_t _blockTree, char *cep, FILE *qryTXTFile, FILE *qrySVGFile) {
+void del(City_t city, char *cep, FILE *qryTXTFile, FILE *qrySVGFile) {
+    HashTable_t _blockTable = get_city_blocks_table(city);
+    HashTable_t _residents = get_city_resident_table(city);
+    HashTable_t _propertyTable = get_city_lease_table(city);
+    AvlTree_t _blockTree = get_city_blocks_tree(city);
+
     Block_t block = get_item(_blockTable, cep);
     if(block != NULL){
         fprintf(qryTXTFile, "Bloco removido\n");
@@ -45,7 +50,11 @@ void del(HashTable_t _residents, HashTable_t _blockTable, HashTable_t _propertyT
     remove_list(propertyToRemove, NULL);
 }
 
-void m(HashTable_t _residents, HashTable_t _people, HashTable_t _blocksTable, char cep[], FILE *qryTXTFile){
+void m(City_t city, char cep[], FILE *qryTXTFile){
+    HashTable_t _blocksTable = get_city_blocks_table(city);
+    HashTable_t _residents = get_city_resident_table(city);
+    HashTable_t _people = get_city_people_table(city);
+
     Block_t block = get_item(_blocksTable, cep);
     if(block == NULL){
         printf("Erro - quadra não encontrada");
@@ -62,7 +71,10 @@ void m(HashTable_t _residents, HashTable_t _people, HashTable_t _blocksTable, ch
     remove_list(residentsToPrint, NULL);
 }
 
-void dm(HashTable_t _residents, HashTable_t _people, HashTable_t _blocksTable, char cpf[], FILE *qryTXTFile, FILE *qrySVGFile){
+void dm(City_t city, char cpf[], FILE *qryTXTFile, FILE *qrySVGFile){
+    HashTable_t _blocksTable = get_city_blocks_table(city);
+    HashTable_t _residents = get_city_resident_table(city);
+    HashTable_t _people = get_city_people_table(city);
     Resident_t resident = get_item(_residents, cpf);
     People_t person     = get_item(_people, cpf);
     if(person == NULL || resident == NULL){
@@ -85,7 +97,10 @@ void dm(HashTable_t _residents, HashTable_t _people, HashTable_t _blocksTable, c
             get_resident_cep(resident), get_resident_number(resident), get_resident_face(resident), get_resident_compl(resident));
 }
 
-void mud(HashTable_t _residents, HashTable_t _people, HashTable_t _blocksTable, char cpf[], char cep[], char face, int num, char compl[], FILE *qryTXTFile, FILE *qrySVGFile){
+void mud(City_t city, char cpf[], char cep[], char face, int num, char compl[], FILE *qryTXTFile, FILE *qrySVGFile){
+    HashTable_t _blocksTable = get_city_blocks_table(city);
+    HashTable_t _residents = get_city_resident_table(city);
+    HashTable_t _people = get_city_people_table(city);
     Resident_t resident = get_item(_residents, cpf);
     People_t person = get_item(_people, cpf);
     Block_t oldBlock = get_item(_blocksTable, get_resident_cep(resident));
@@ -110,12 +125,15 @@ void mud(HashTable_t _residents, HashTable_t _people, HashTable_t _blocksTable, 
     print_circle(cx, cy, 10.0, "white", "red", "5px", qrySVGFile);
 }
 
-void oloc(HashTable_t propertyLeaseTable, char id[], char cep[], char side, int num, char compl[], double ar, double v){
+void oloc(City_t city, char id[], char cep[], char side, int num, char compl[], double ar, double v){
+    HashTable_t propertyLeaseTable = get_city_lease_table(city);
     Lease_t newLease = create_lease(id, cep, compl, side, num, ar, v);
     insert_hash(propertyLeaseTable, id, newLease);
 }
 
-void oloc_i(HashTable_t propertyLeaseTable, HashTable_t _blocksTable, double x, double y, double w, double h, FILE *qryTXTFile, FILE *qrySVGFile){
+void oloc_i(City_t city, double x, double y, double w, double h, FILE *qryTXTFile, FILE *qrySVGFile){
+    HashTable_t _blocksTable = get_city_blocks_table(city);
+    HashTable_t propertyLeaseTable = get_city_lease_table(city);
     char face;
     List_t propertyLeaseList = NULL;
     Block_t block = NULL;
@@ -150,7 +168,14 @@ void oloc_i(HashTable_t propertyLeaseTable, HashTable_t _blocksTable, double x, 
 
 }
 
-void loc(HashTable_t _blocksTable, HashTable_t _people, HashTable_t _residents, HashTable_t propertyLeaseTable, char id[], char cpf[], FILE *qryTXTFile, FILE *qrySVGFile){
+void loc(City_t city, char id[], char cpf[], FILE *qryTXTFile, FILE *qrySVGFile){
+    HashTable_t _blocksTable = get_city_blocks_table(city);
+    HashTable_t _residents = get_city_resident_table(city);
+    HashTable_t _people = get_city_people_table(city);
+    HashTable_t propertyLeaseTable = get_city_lease_table(city);
+
+
+
     Lease_t property = get_item(propertyLeaseTable, id);
     People_t person = get_item(_people, cpf);
     Resident_t resident = create_resident(cpf, get_property_cep(property), get_property_side(property), get_property_number(property), get_property_compl(property));
@@ -185,7 +210,8 @@ void loc(HashTable_t _blocksTable, HashTable_t _people, HashTable_t _residents, 
     fprintf(qryTXTFile, "\n");
 }
 
-void loc_i(HashTable_t _residents, HashTable_t _people, HashTable_t propertyLeaseTable, char id[], FILE *txtFile, FILE *svgFile){
+void loc_i(City_t city, char id[], FILE *txtFile, FILE *svgFile){
+    HashTable_t propertyLeaseTable = get_city_lease_table(city);
     Lease_t property = get_item(propertyLeaseTable, id);
     if(property == NULL){
         return;

@@ -1,4 +1,5 @@
 #include "city.h"
+#include <stdlib.h>
 
 typedef struct City {
     HashTable_t peopleTable;
@@ -35,7 +36,7 @@ void insert_city_lease_table(City_t _city, HashTable_t _lease){
 
 void insert_city_blocks_table(City_t _city, HashTable_t _blocksTable){
     City *city = (City*) _city;
-    city->blocksTree = _blocksTable;
+    city->blocksTable = _blocksTable;
 }
 
 void insert_city_blocks_tree(City_t _city, AvlTreeNode_t _blocksTree){
@@ -53,7 +54,7 @@ HashTable_t get_city_resident_table(City_t _city){
     return city->residentsTable;
  }
 
-HashTable_t get_city_leases_table(City_t _city){
+HashTable_t get_city_lease_table(City_t _city){
 	City *city = (City*) _city;
     return city->leaseTable;
 }
@@ -66,4 +67,14 @@ HashTable_t get_city_blocks_table(City_t _city){
 AvlTree_t get_city_blocks_tree(City_t _city){
 	City *city = (City*) _city;
     return city->blocksTree;
+}
+
+void delete_city(City_t _city){
+    City *city = (City*) _city;
+    delete_tree(city->blocksTree);
+    delete_hash_table(city->peopleTable, 1);
+    delete_hash_table(city->residentsTable, 1);
+    delete_hash_table(city->blocksTable, 1);
+    delete_hash_table(city->leaseTable, 1);
+    free(_city);
 }

@@ -99,6 +99,9 @@ void remove_item(HashTable_t _hashTable, char key[], int flag){
 }
 
 void delete_hash_table(HashTable_t _hashTable, int flag){
+    if(_hashTable == NULL){
+        return;
+    }
     void (*carlos[2])(void*) = {free, delete_item};
     Hash *hashTable = (Hash*)_hashTable;
     int i;

@@ -22,10 +22,12 @@ HashTable_t get_city_people_table(City_t _city);
 
 HashTable_t get_city_resident_table(City_t _city);
 
-HashTable_t get_city_leases_table(City_t _city);
+HashTable_t get_city_lease_table(City_t _city);
 
 HashTable_t get_city_blocks_table(City_t _city);
 
 AvlTree_t get_city_blocks_tree(City_t _city);
+
+void delete_city(City_t _city);
 
 #endif //CITY_H_
