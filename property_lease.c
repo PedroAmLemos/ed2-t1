@@ -6,6 +6,7 @@ typedef struct {
     char id[50];
     char cep[25];
     char compl[50];
+    char lessee[20];
     char side;
     int num;
     double ar;
@@ -15,7 +16,7 @@ typedef struct {
 
 }Lease;
 
-// 0 não alugada, 1 alugada
+// 0: não alugada, 1: alugada, 2: contrato cancelado
 Lease_t create_lease(char id[50], char cep[25], char compl[50], char side, int number, double ar, double v){
     Lease *newLease = (Lease*) malloc(sizeof(Lease));
     strcpy(newLease->cep, cep);
@@ -27,6 +28,28 @@ Lease_t create_lease(char id[50], char cep[25], char compl[50], char side, int n
     newLease->v=v;
     newLease->status = 0;
     return newLease;
+}
+
+void add_lessee(Lease_t _property, char cpf[20]){
+    Lease *property = (Lease*) _property;
+    strcpy(property->lessee, cpf);
+}
+
+void change_property_status(Lease_t _property, int status){
+    Lease *property = (Lease*) _property;
+    property->status = status;
+}
+
+void print_property(Lease_t *_property, FILE *TXTFile){
+    Lease *property = (Lease*) _property;
+    fprintf(TXTFile, "Dados da locação: cep: %s, id: %s, face: %c, num: %d, complemento: %s, area: %.2lf e valor: %.2lf\n",
+            property->cep, property->id, property->side, property->num, property->compl, property->ar, property->v);
+
+}
+
+char *get_lessee(Lease_t _property){
+    Lease *property = (Lease*) _property;
+    return property->lessee;
 }
 
 char *get_property_cep(Lease_t _property){
@@ -64,9 +87,9 @@ double get_property_v(Lease_t _property){
     return property->v;
 }
 
-void change_property_status(Lease_t _property, int status){
-    Lease *property = (Lease*) _property;
-    property->status = status;
+int get_property_status(Lease_t _property){
+	Lease *property = (Lease*) _property;
+    return property->status;
 }
 
 List_t get_lease_ids(HashTable_t _property, char *cep){
@@ -80,12 +103,5 @@ List_t get_lease_ids(HashTable_t _property, char *cep){
         }
     }
     return propertyToRemove;
-}
-
-void print_property(Lease_t *_property, FILE *TXTFile){
-    Lease *property = (Lease*) _property;
-    fprintf(TXTFile, "Dados da locação: cep: %s, id: %s, face: %c, num: %d, complemento: %s, area: %.2lf e valor: %.2lf\n",
-            property->cep, property->id, property->side, property->num, property->compl, property->ar, property->v);
-
 }
 

@@ -158,6 +158,7 @@ void loc(HashTable_t _blocksTable, HashTable_t _people, HashTable_t _residents, 
     change_resident_to_rent(resident);
     insert_hash(_residents, cpf, resident);
     change_property_status(property, 1);
+    add_lessee(property, cpf);
     print_property(property, qryTXTFile);
     print_person_resident_txt(resident, person, qryTXTFile);
     char face = get_property_side(property);
@@ -182,4 +183,26 @@ void loc(HashTable_t _blocksTable, HashTable_t _people, HashTable_t _residents, 
         loc_print(person, property, qrySVGFile, get_block_x(block) + get_block_width(block) - 10 + 8);
     }
     fprintf(qryTXTFile, "\n");
+}
+
+void loc_i(HashTable_t _residents, HashTable_t _people, HashTable_t propertyLeaseTable, char id[], FILE *txtFile, FILE *svgFile){
+    Lease_t property = get_item(propertyLeaseTable, id);
+    if(property == NULL){
+        return;
+    }
+    int status = get_property_status(property);
+    if(status == 0){
+        // não alugada
+        fprintf(txtFile, "Casa não alugada\n");
+        print_property(property, txtFile);
+    }
+    else if(status == 1){
+        // alugada
+
+
+    }
+    else if(status == 2){
+        // contrato encerrado
+    }
+
 }

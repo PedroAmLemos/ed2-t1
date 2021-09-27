@@ -8,7 +8,7 @@
 #include "svg.h"
 #include "people.h"
 #include "resident.h"
-#include "wrapper.h"
+#include "city.h"
 
 void pm_treat(HashTable_t people_, HashTable_t residents_, FILE *pmFile){
     char aux[5];
@@ -37,6 +37,7 @@ void main_treatment(FILE *geoFile, FILE *qryFile, FILE *geoSVGFile, FILE *qrySVG
     char aux[5], cep[20], sw[25] = "1.0px", fill[25] = "blue", stroke[25] = "green";
     HashTable_t people = NULL, residents = NULL;
     AvlTree_t blocksTree = create_tree("Blocks");
+    City_t city = create_city();
 
     Block_t block = NULL;
 

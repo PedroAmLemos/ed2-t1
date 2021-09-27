@@ -7,6 +7,12 @@ typedef void *Lease_t;
 
 Lease_t create_lease(char id[50], char cep[25], char compl[50], char side, int number, double ar, double v);
 
+void add_lessee(Lease_t _property, char cpf[20]);
+
+void change_property_status(Lease_t _property, int status);
+
+void print_property(Lease_t *_property, FILE *TXTFile);
+
 char *get_property_cep(Lease_t _property);
 
 char *get_property_id(Lease_t _property);
@@ -23,8 +29,8 @@ double get_property_ar(Lease_t _property);
 
 double get_property_v(Lease_t _property);
 
-void change_property_status(Lease_t _property, int status);
+char *get_lessee(Lease_t _property);
 
-void print_property(Lease_t *_property, FILE *TXTFile);
+int get_property_status(Lease_t _property);
 
 #endif //PROPERTY_LEASE_H_

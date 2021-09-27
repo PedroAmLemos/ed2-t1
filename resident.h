@@ -7,13 +7,15 @@ typedef void *Resident_t;
 
 Resident_t create_resident(char cpf[], char cep[], char face, int num, char compl[]);
 
-char* get_resident_cpf(Resident_t _resident);
-
 void change_resident_to_rent(Resident_t _resident);
 
 void change_resident_from_rent(Resident_t _resident);
 
+void change_resident_address(Resident_t _resident, char *newCEP, char *newCPF, char face, int num, char *compl);
+
 int is_person_renting(Resident_t _resident);
+
+char* get_resident_cpf(Resident_t _resident);
 
 char* get_resident_cep(Resident_t _resident);
 
@@ -24,7 +26,5 @@ int get_resident_number(Resident_t _resident);
 char* get_resident_compl(Resident_t _resident);
 
 List_t get_cep_residents(HashTable_t _residentTable, char *cep);
-
-void change_resident_address(Resident_t _resident, char *newCEP, char *newCPF, char face, int num, char *compl);
 
 #endif //RESIDENT_H_

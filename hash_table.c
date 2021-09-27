@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include <stdio.h>
 #include "linked_list.h"
 #include "hash_table.h"
 

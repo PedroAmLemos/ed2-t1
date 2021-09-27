@@ -50,9 +50,12 @@ void qry_treat(HashTable_t _people, HashTable_t _residents, HashTable_t _blocksT
         if(strcmp(aux, "loc") == 0){
             fprintf(qryTXTFile, "\nloc\n");
             fscanf(qryFile, "%s %s", id, cpf);
-             loc(_blocksTable, _people, _residents, propertyLeaseTable, id, cpf, qryTXTFile, qrySVGFile);
+            loc(_blocksTable, _people, _residents, propertyLeaseTable, id, cpf, qryTXTFile, qrySVGFile);
         }
-
+        if(strcmp(aux, "loc?") == 0){
+	        fprintf(qryTXTFile, "loc?\n");
+            fscanf(qryFile, "%s", id);
+        }
 
 
     }

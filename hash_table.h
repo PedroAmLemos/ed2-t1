@@ -12,15 +12,15 @@ HashTable_t create_hash_table(int size);
 
 void insert_hash(HashTable_t _hashTable, char *key, Info_t _info);
 
+void delete_hash_table(HashTable_t _hashTable, int flag);
+
+void remove_item(HashTable_t _hashTable, char key[], int flag);
+
 unsigned long int hash_function(char *key, int size);
 
 int get_table_size(HashTable_t *_hashTable);
 
 List_t get_table_list(HashTable_t _hashTable, char *key);
-
-void delete_hash_table(HashTable_t _hashTable, int flag);
-
-void remove_item(HashTable_t _hashTable, char key[], int flag);
 
 List_t *get_table(HashTable_t _hashTable);
 

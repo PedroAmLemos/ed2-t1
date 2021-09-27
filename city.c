@@ -1,17 +1,69 @@
-#include <malloc.h>
 #include "city.h"
-#include "hash_table.h"
-#include "avl_tree.h"
 
 typedef struct City {
-    HashTable_t hashTable;
-    AvlTree_t avlTree;
+    HashTable_t peopleTable;
+    HashTable_t residentsTable;
+    HashTable_t leaseTable;
+    HashTable_t blocksTable;
+    AvlTree_t blocksTree;
 }City;
 
-City_t create_city(HashTable_t hashTable, AvlTree_t avlTree){
+City_t create_city(){
     City *city = (City*) malloc(sizeof(City));
-    city->avlTree = avlTree;
-    city->hashTable = hashTable;
+    city->peopleTable = NULL;
+    city->residentsTable = NULL;
+    city->leaseTable = NULL;
+    city->blocksTable = NULL;
+    city->blocksTree = NULL;
     return city;
 }
 
+void insert_city_people_table(City_t  _city, HashTable_t _people){
+    City *city = (City*) _city;
+    city->peopleTable = _people;
+}
+
+void insert_city_residents_table(City_t _city, HashTable_t _residents){
+    City *city = (City*) _city;
+    city->residentsTable = _residents;
+}
+
+void insert_city_lease_table(City_t _city, HashTable_t _lease){
+    City *city = (City*) _city;
+    city->leaseTable = _lease;
+}
+
+void insert_city_blocks_table(City_t _city, HashTable_t _blocksTable){
+    City *city = (City*) _city;
+    city->blocksTree = _blocksTable;
+}
+
+void insert_city_blocks_tree(City_t _city, AvlTreeNode_t _blocksTree){
+    City *city = (City*) _city;
+    city->blocksTree = _blocksTree;
+}
+
+HashTable_t get_city_people_table(City_t _city){
+    City *city = (City*) _city;
+    return city->peopleTable;
+}
+
+HashTable_t get_city_resident_table(City_t _city){
+    City *city = (City*) _city;
+    return city->residentsTable;
+ }
+
+HashTable_t get_city_leases_table(City_t _city){
+	City *city = (City*) _city;
+    return city->leaseTable;
+}
+
+HashTable_t get_city_blocks_table(City_t _city){
+	City *city = (City*) _city;
+    return city->blocksTable;
+}
+
+AvlTree_t get_city_blocks_tree(City_t _city){
+	City *city = (City*) _city;
+    return city->blocksTree;
+}
