@@ -35,11 +35,6 @@ void main_treatment(FILE *geoFile, FILE *qryFile, FILE *geoSVGFile, FILE *qrySVG
     double x = 0, y = 0, w = 0, h = 0;
     char aux[5], cep[20], sw[25] = "1.0px", fill[25] = "blue", stroke[25] = "green";
     HashTable_t people = NULL, residents = NULL;
-    City_t city = create_city();
-    insert_city_lease_table(city, create_hash_table(1117));
-    insert_city_blocks_tree(city, create_tree("Blocks"));
-    HashTable_t propertyLeaseTable = get_city_lease_table(city);
-    AvlTree_t blocksTree = get_city_blocks_tree(city);
 
     Block_t block = NULL;
 
@@ -52,7 +47,8 @@ void main_treatment(FILE *geoFile, FILE *qryFile, FILE *geoSVGFile, FILE *qrySVG
     }
 
 
-    insert_city_blocks_table(city, create_hash_table(nx));
+    City_t city = create_city(nx);
+    AvlTree_t blocksTree = get_city_blocks_tree(city);
     HashTable_t blocksTable = get_city_blocks_table(city);
 
     while(fscanf(geoFile, "%s", aux)!=EOF){
@@ -74,8 +70,6 @@ void main_treatment(FILE *geoFile, FILE *qryFile, FILE *geoSVGFile, FILE *qrySVG
 
 
     if(pmFile){
-        insert_city_people_table(city, create_hash_table(nx));
-        insert_city_residents_table(city, create_hash_table(nx));
         people = get_city_people_table(city);
         residents = get_city_resident_table(city);
         pm_treat(people, residents, pmFile);

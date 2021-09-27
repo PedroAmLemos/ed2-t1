@@ -9,13 +9,13 @@ typedef struct City {
     AvlTree_t blocksTree;
 }City;
 
-City_t create_city(){
+City_t create_city(int nx){
     City *city = (City*) malloc(sizeof(City));
-    city->peopleTable = NULL;
-    city->residentsTable = NULL;
-    city->leaseTable = NULL;
-    city->blocksTable = NULL;
-    city->blocksTree = NULL;
+    city->peopleTable = create_hash_table(nx);
+    city->residentsTable = create_hash_table(nx);
+    city->leaseTable = create_hash_table(1117);
+    city->blocksTable = create_hash_table(nx);
+    city->blocksTree = create_tree();
     return city;
 }
 

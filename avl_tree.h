@@ -13,7 +13,7 @@ Função: Cria uma estrutura de Árvore AVL e armazena o tipo;
 Pré: char[20] com o que vai ser armazenado. Ex: "Retangulo";
 Pós: Retorna um void* com o endereço da árvore.
 */
-AvlTree_t create_tree(char type[20]);
+AvlTree_t create_tree();
 
 /*
 Função: Dado uma árvore, um ponteiro para Info e uma chave, insere na árvore e balanceia-a.
