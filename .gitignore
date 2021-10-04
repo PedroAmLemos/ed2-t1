@@ -4,3 +4,5 @@
 *.o
 /cmake-build-wsl/
 /cmake-build-wsl-coverage/
+/cmake-build-debug---mingw/
+/cmake-build-release-wsl/

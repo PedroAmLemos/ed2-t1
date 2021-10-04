@@ -66,7 +66,7 @@ int get_table_size(HashTable_t *_hashTable){
 List_t get_table_list(HashTable_t _hashTable, char *key){
     Hash *hashTable = (Hash*)_hashTable;
     unsigned long int hashKey = hash_function(key, hashTable->size);
-    if(hashKey >= hashTable->size){
+    if((int) hashKey >= hashTable->size){
         return NULL;
     }
     return hashTable->table[hashKey];

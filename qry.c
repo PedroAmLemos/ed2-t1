@@ -56,9 +56,8 @@ void qry_treat(City_t city, FILE *qryFile, FILE *qrySVGFile, FILE *qryTXTFile){
         if(strcmp(aux, "loc?") == 0){
 	        fprintf(qryTXTFile, "loc?\n");
             fscanf(qryFile, "%s", id);
+            loc_i(city, id, qryTXTFile, qrySVGFile);
         }
-
-
     }
     print_tree(get_tree_root(_blocksTree), qrySVGFile, print_block);
     close_svg(qrySVGFile);

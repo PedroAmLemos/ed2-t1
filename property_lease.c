@@ -93,15 +93,25 @@ int get_property_status(Lease_t _property){
 }
 
 List_t get_lease_ids(HashTable_t _property, char *cep){
-    Lease *property = (Lease*) _property;
     List_t propertyToRemove = create_list();
-    if(property == NULL )
+    if(_property == NULL ) {
         return propertyToRemove;
-    for(Node_t node = get_list_first(get_table_list(property, cep)); node != NULL; node = get_list_next(node)){
-        if(strcmp(get_property_cep(get_item_info(get_list_info(node))), cep) == 0){
-            insert_list(propertyToRemove, get_property_id(get_item_info));
+    }
+    int tableSize = get_table_size(_property);
+    List_t tableList;
+    for(int i = 0; i < tableSize; i++){
+        tableList = get_index_list(_property, i);
+        if(tableList != NULL){
+            for(Node_t node = get_list_first(tableList); node != NULL; node = get_list_next(node)){
+                if(strcmp(get_property_cep(get_item_info(get_list_info(node))), cep) == 0){
+                    insert_list(propertyToRemove, get_property_id(get_item_info(get_list_info(node))));
+                }
+            }
         }
     }
+
+
+
     return propertyToRemove;
 }
 

@@ -169,21 +169,23 @@ void oloc_i(City_t city, double x, double y, double w, double h, FILE *qryTXTFil
 }
 
 void loc(City_t city, char id[], char cpf[], FILE *qryTXTFile, FILE *qrySVGFile){
+
     HashTable_t _blocksTable = get_city_blocks_table(city);
     HashTable_t _residents = get_city_resident_table(city);
     HashTable_t _people = get_city_people_table(city);
     HashTable_t propertyLeaseTable = get_city_lease_table(city);
 
-
-
     Lease_t property = get_item(propertyLeaseTable, id);
     People_t person = get_item(_people, cpf);
-    Resident_t resident = create_resident(cpf, get_property_cep(property), get_property_side(property), get_property_number(property), get_property_compl(property));
     Block_t block = get_item(_blocksTable, get_property_cep(property));
+
+    Resident_t resident = create_resident(cpf, get_property_cep(property), get_property_side(property), get_property_number(property), get_property_compl(property));
+
     change_resident_to_rent(resident);
     insert_hash(_residents, cpf, resident);
     change_property_status(property, 1);
     add_lessee(property, cpf);
+
     print_property(property, qryTXTFile);
     print_person_resident_txt(resident, person, qryTXTFile);
     char face = get_property_side(property);
@@ -212,23 +214,74 @@ void loc(City_t city, char id[], char cpf[], FILE *qryTXTFile, FILE *qrySVGFile)
 
 void loc_i(City_t city, char id[], FILE *txtFile, FILE *svgFile){
     HashTable_t propertyLeaseTable = get_city_lease_table(city);
+    HashTable_t blocksTable = get_city_blocks_table(city);
     Lease_t property = get_item(propertyLeaseTable, id);
+    Block_t block = get_item(blocksTable, get_property_cep(property));
     if(property == NULL){
         return;
     }
     int status = get_property_status(property);
+    char face = get_property_side(property);
     if(status == 0){
         // não alugada
         fprintf(txtFile, "Casa não alugada\n");
         print_property(property, txtFile);
+
+        if(face == 'N'){
+            print_text(get_block_x(block) + get_block_width(block)/2, get_block_y(block) + get_block_height(block),
+                       "*", svgFile);
+        }
+        else if(face == 'S'){
+            print_text(get_block_x(block) + get_block_width(block)/2, get_block_y(block) + 20,
+                       "*", svgFile);
+        }
+        else if(face == 'L'){
+            print_text(get_block_x(block) + 8, get_block_y(block) + get_block_height(block) * 0.5,
+                       "*", svgFile);
+        }
+        else if(face == 'O'){
+            print_text(get_block_x(block) + get_block_width(block) - 10, get_block_y(block) + get_block_height(block) * 0.5,
+                       "*", svgFile);
+        }
     }
     else if(status == 1){
-        // alugada
-
-
+        fprintf(txtFile, "Casa alugada\n");
+        print_property(property, txtFile);
+        if(face == 'N'){
+            print_text(get_block_x(block) + get_block_width(block)/2, get_block_y(block) + get_block_height(block),
+                       "$", svgFile);
+        }
+        else if(face == 'S'){
+            print_text(get_block_x(block) + get_block_width(block)/2, get_block_y(block) + 20,
+                       "$", svgFile);
+        }
+        else if(face == 'L'){
+            print_text(get_block_x(block) + 8, get_block_y(block) + get_block_height(block) * 0.5,
+                       "$", svgFile);
+        }
+        else if(face == 'O'){
+            print_text(get_block_x(block) + get_block_width(block) - 10, get_block_y(block) + get_block_height(block) * 0.5,
+                       "$", svgFile);
+        }
     }
     else if(status == 2){
-        // contrato encerrado
+        fprintf(txtFile, "Locação encerrada\n");
+        print_property(property, txtFile);
+        if(face == 'N'){
+            print_text(get_block_x(block) + get_block_width(block)/2, get_block_y(block) + get_block_height(block),
+                       "#", svgFile);
+        }
+        else if(face == 'S'){
+            print_text(get_block_x(block) + get_block_width(block)/2, get_block_y(block) + 20,
+                       "#", svgFile);
+        }
+        else if(face == 'L'){
+            print_text(get_block_x(block) + 8, get_block_y(block) + get_block_height(block) * 0.5,
+                       "#", svgFile);
+        }
+        else if(face == 'O'){
+            print_text(get_block_x(block) + get_block_width(block) - 10, get_block_y(block) + get_block_height(block) * 0.5,
+                       "#", svgFile);
+        }
     }
-
 }
