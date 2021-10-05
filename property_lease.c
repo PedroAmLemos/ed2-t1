@@ -1,4 +1,3 @@
-#include <malloc.h>
 #include <string.h>
 #include "property_lease.h"
 
@@ -22,6 +21,7 @@ Lease_t create_lease(char id[50], char cep[25], char compl[50], char side, int n
     strcpy(newLease->cep, cep);
     strcpy(newLease->id, id);
     strcpy(newLease->compl, compl);
+    strcpy(newLease->lessee, "NULL");
     newLease->side=side;
     newLease->num=number;
     newLease->ar=ar;
@@ -109,9 +109,6 @@ List_t get_lease_ids(HashTable_t _property, char *cep){
             }
         }
     }
-
-
-
     return propertyToRemove;
 }
 

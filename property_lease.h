@@ -4,6 +4,8 @@
 typedef void *Lease_t;
 #include "linked_list.h"
 #include "hash_table.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 Lease_t create_lease(char id[50], char cep[25], char compl[50], char side, int number, double ar, double v);
 
@@ -32,5 +34,6 @@ double get_property_v(Lease_t _property);
 char *get_lessee(Lease_t _property);
 
 int get_property_status(Lease_t _property);
+
 
 #endif //PROPERTY_LEASE_H_

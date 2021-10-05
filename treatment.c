@@ -33,7 +33,7 @@ void pm_treat(HashTable_t people_, HashTable_t residents_, FILE *pmFile){
 void main_treatment(FILE *geoFile, FILE *qryFile, FILE *geoSVGFile, FILE *qrySVGFile, FILE *qryTXTFile, FILE *pmFile){
     int nx = 0;
     double x = 0, y = 0, w = 0, h = 0;
-    char aux[5], cep[20], sw[25] = "1.0px", fill[25] = "blue", stroke[25] = "green";
+    char aux[5], cep[200], sw[250] = "1.0px", fill[250] = "blue", stroke[250] = "green";
     HashTable_t people = NULL, residents = NULL;
 
     Block_t block = NULL;

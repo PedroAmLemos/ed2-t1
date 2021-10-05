@@ -285,3 +285,50 @@ void loc_i(City_t city, char id[], FILE *txtFile, FILE *svgFile){
         }
     }
 }
+
+void dloc(City_t city, char id[], FILE *txtFile, FILE *svgFile){
+    HashTable_t propertyLeaseTable = get_city_lease_table(city);
+    HashTable_t blocksTable = get_city_blocks_table(city);
+    HashTable_t residentsTable = get_city_resident_table(city);
+    HashTable_t peopleTable = get_city_people_table(city);
+
+    Lease_t property = get_item(propertyLeaseTable, id);
+    Resident_t resident = get_item(residentsTable, get_lessee(property));
+    People_t person = get_item(peopleTable, get_lessee(property));
+    Block_t block = get_item(blocksTable, get_property_cep(property));
+
+    change_property_status(property, 2);
+    fprintf(txtFile, "Locação com o contrato encerrado:\n");
+    print_property(property, txtFile);
+    if(get_property_status(property) != 1){
+        fprintf(txtFile, "Propriedade sem morador\n");
+    }else{
+        fprintf(txtFile, "Morador removido:\n");
+        print_person_resident_txt(resident, person, txtFile);
+        remove_item(residentsTable, get_lessee(property), 1);
+    }
+
+    char face = get_property_side(property);
+    if(face == 'N'){
+        print_line(get_block_x(block) + get_block_width(block)/2, get_block_y(block) + get_block_height(block),
+                   get_block_x(block) + get_block_width(block)/2, 10, "black", svgFile);
+        loc_print(person, property, svgFile, (get_block_x(block) + get_block_width(block)/2));
+    }
+    else if(face == 'S'){
+        print_line(get_block_x(block) + get_block_width(block)/2, get_block_y(block) + 20,
+                   get_block_x(block) + get_block_width(block)/2, 10, "black", svgFile);
+        loc_print(person, property, svgFile, get_block_x(block) + get_block_width(block)/2);
+    }
+    else if(face == 'L'){
+        print_line(get_block_x(block) + 8, get_block_y(block) + get_block_height(block) * 0.5,
+                   get_block_x(block) + 8, 10, "black", svgFile);
+        loc_print(person, property, svgFile, get_block_x(block) + 8);
+    }
+    else if(face == 'O'){
+        print_line(get_block_x(block) + get_block_width(block) - 10, get_block_y(block) + get_block_height(block) * 0.5,
+                   get_block_x(block) + get_block_width(block) - 10, 10, "black", svgFile);
+        loc_print(person, property, svgFile, get_block_x(block) + get_block_width(block) - 10 + 8);
+    }
+
+    fprintf(txtFile, "\n");
+}

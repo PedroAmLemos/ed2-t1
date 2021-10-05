@@ -22,4 +22,7 @@ void loc(City_t city, char id[], char cpf[], FILE *qryTXTFile, FILE *qrySVGFile)
 
 void loc_i(City_t city, char id[], FILE *txtFile, FILE *svgFile);
 
+void dloc(City_t city, char id[], FILE *txtFile, FILE *svgFile);
+
+
 #endif //QRY_FUNCTIONS_H_

@@ -73,6 +73,9 @@ List_t get_table_list(HashTable_t _hashTable, char *key){
 }
 
 Item_t get_item(HashTable_t _hashtable, char key[]) {
+    if(strcmp(key, "NULL") == 0){
+        return NULL;
+    }
     Hash *hashTable = (Hash*) _hashtable;
     unsigned long int hashKey = hash_function(key, hashTable->size);
     for(Node_t aux = get_list_first(hashTable->table[hashKey]); aux != NULL; aux = get_list_next(aux)){

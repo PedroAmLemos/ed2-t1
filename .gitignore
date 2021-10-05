@@ -6,3 +6,6 @@
 /cmake-build-wsl-coverage/
 /cmake-build-debug---mingw/
 /cmake-build-release-wsl/
+/cmake-build-release---mingw/
+/cmake-build-default-wsl/
+/cmake-build-debug-wsl/
