@@ -47,5 +47,7 @@ Info_t get_list_info(Node_t node_);
  */
 int get_list_size(List_t _list);
 
+void get_points_inside(List_t _list, List_t storage, double x, double y, double w, double h);
+
 
 #endif // LINKED_LIST_H_

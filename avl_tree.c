@@ -418,7 +418,7 @@ void remove_tree_fp(AvlTree_t _avlTree, const double *point){
 void print_dmpt(AvlTreeNode_t _node, FILE *dmptFILE){
     TreeNode * node = (TreeNode *) _node;
 
-    if(node == NULL){
+    if(node == NULL || node->list == NULL){
         return;
     }
     char *edge = " -> ";
@@ -496,6 +496,31 @@ void print_dmpt(AvlTreeNode_t _node, FILE *dmptFILE){
     print_dmpt(node->left, dmptFILE);
     print_dmpt(node->right, dmptFILE);
 }
-//
-//
-//}
+
+void get_inside_util(AvlTreeNode_t _node, List_t storage, double x, double y, double w, double h){
+    if(_node == NULL){
+        return;
+    }
+
+    TreeNode *node = (TreeNode*) _node;
+
+    get_inside_util(node->left, storage, x, y, w, h);
+    get_inside_util(node->right, storage, x, y, w, h);
+    List_t list = node->list;
+    Block_t block = NULL;
+
+
+    for(Node_t listNode = get_list_first(list); listNode != NULL; listNode = get_list_next(listNode)) {
+        block = get_list_info(listNode);
+        if(is_block_inside_rect(block, x, y, w, h)) {
+            insert_list(storage, get_block_cep(block));
+        }
+    }
+}
+
+List_t get_inside(AvlTree_t _tree, double x, double y, double w, double h){
+    List_t inside = create_list();
+    Tree *tree = (Tree *) _tree;
+    get_inside_util(tree->root, inside, x, y, w, h);
+    return inside;
+}
