@@ -21,7 +21,7 @@ Lease_t create_lease(char id[50], char cep[25], char compl[50], char side, int n
     strcpy(newLease->cep, cep);
     strcpy(newLease->id, id);
     strcpy(newLease->compl, compl);
-    strcpy(newLease->lessee, "NULL");
+    strcpy(newLease->lessee, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     newLease->side=side;
     newLease->num=number;
     newLease->ar=ar;

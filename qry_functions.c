@@ -165,7 +165,6 @@ void oloc_i(City_t city, double x, double y, double w, double h, FILE *qryTXTFil
             }
         }
     }
-
 }
 
 void loc(City_t city, char id[], char cpf[], FILE *qryTXTFile, FILE *qrySVGFile){
@@ -176,6 +175,9 @@ void loc(City_t city, char id[], char cpf[], FILE *qryTXTFile, FILE *qrySVGFile)
     HashTable_t propertyLeaseTable = get_city_lease_table(city);
 
     Lease_t property = get_item(propertyLeaseTable, id);
+    if(property == NULL){
+        return;
+    }
     People_t person = get_item(_people, cpf);
     Block_t block = get_item(_blocksTable, get_property_cep(property));
 
@@ -216,10 +218,11 @@ void loc_i(City_t city, char id[], FILE *txtFile, FILE *svgFile){
     HashTable_t propertyLeaseTable = get_city_lease_table(city);
     HashTable_t blocksTable = get_city_blocks_table(city);
     Lease_t property = get_item(propertyLeaseTable, id);
-    Block_t block = get_item(blocksTable, get_property_cep(property));
     if(property == NULL){
         return;
     }
+    Block_t block = get_item(blocksTable, get_property_cep(property));
+
     int status = get_property_status(property);
     char face = get_property_side(property);
     if(status == 0){
@@ -264,26 +267,6 @@ void loc_i(City_t city, char id[], FILE *txtFile, FILE *svgFile){
                        "$", svgFile);
         }
     }
-    else if(status == 2){
-        fprintf(txtFile, "Locação encerrada\n");
-        print_property(property, txtFile);
-        if(face == 'N'){
-            print_text(get_block_x(block) + get_block_width(block)/2, get_block_y(block) + get_block_height(block),
-                       "#", svgFile);
-        }
-        else if(face == 'S'){
-            print_text(get_block_x(block) + get_block_width(block)/2, get_block_y(block) + 20,
-                       "#", svgFile);
-        }
-        else if(face == 'L'){
-            print_text(get_block_x(block) + 8, get_block_y(block) + get_block_height(block) * 0.5,
-                       "#", svgFile);
-        }
-        else if(face == 'O'){
-            print_text(get_block_x(block) + get_block_width(block) - 10, get_block_y(block) + get_block_height(block) * 0.5,
-                       "#", svgFile);
-        }
-    }
 }
 
 void dloc(City_t city, char id[], FILE *txtFile, FILE *svgFile){
@@ -293,6 +276,7 @@ void dloc(City_t city, char id[], FILE *txtFile, FILE *svgFile){
     HashTable_t peopleTable = get_city_people_table(city);
 
     Lease_t property = get_item(propertyLeaseTable, id);
+
     Resident_t resident = get_item(residentsTable, get_lessee(property));
     People_t person = get_item(peopleTable, get_lessee(property));
     Block_t block = get_item(blocksTable, get_property_cep(property));
@@ -330,5 +314,80 @@ void dloc(City_t city, char id[], FILE *txtFile, FILE *svgFile){
         loc_print(person, property, svgFile, get_block_x(block) + get_block_width(block) - 10 + 8);
     }
 
+    remove_item(propertyLeaseTable, id, 1);
     fprintf(txtFile, "\n");
+}
+
+void hom(City_t city, double x, double y, double w, double h, FILE *txtFile, FILE *qrySVGFile){
+    HashTable_t _blocksTable = get_city_blocks_table(city);
+    HashTable_t propertyLeaseTable = get_city_lease_table(city);
+    char face;
+    List_t propertyLeaseList = NULL;
+    Block_t block = NULL;
+    Lease_t property = NULL;
+    for (int i = 0; i < get_table_size(propertyLeaseTable); ++i) {
+        propertyLeaseList = get_index_list(propertyLeaseTable, i);
+        for(Node_t node = get_list_first(propertyLeaseList); node != NULL; node = get_list_next(node)){
+            property = get_item_info(get_list_info(node));
+            block = get_info_from_key(_blocksTable, get_property_cep(property));
+            if(block != NULL){
+                if(is_block_inside_rect(block, x, y, w, h)){
+                    print_property(property, txtFile);
+                    print_person_resident_txt(get_item(get_city_resident_table(city), get_lessee(property)), get_item(get_city_people_table(city), get_lessee(property)), txtFile);
+                    face = get_property_side(property);
+                    if(face == 'N'){
+                        print_circle(get_block_x(block) + get_block_width(block)/2, get_block_y(block) + get_block_height(block), 2, "black", "blue", "2px", qrySVGFile);
+                    }
+                    else if(face == 'S'){
+                        print_circle(get_block_x(block) + get_block_width(block)/2, get_block_y(block) + 20, 2, "black", "blue", "2px", qrySVGFile);
+                    }
+                    else if(face == 'L'){
+                        print_circle(get_block_x(block) + 8, get_block_y(block) + get_block_height(block) * 0.5, 2, "black", "blue", "2px", qrySVGFile);
+                    }
+                    else if(face == 'O'){
+                        print_circle(get_block_x(block) + get_block_width(block) - 10, get_block_y(block) + get_block_height(block) * 0.5, 2, "black", "blue", "2px", qrySVGFile);
+                    }
+                }
+            }
+        }
+    }
+
+
+}
+
+void mul(City_t city, double x, double y, double w, double h, FILE *txtFile, FILE *qrySVGFile){
+    HashTable_t _blocksTable = get_city_blocks_table(city);
+    HashTable_t propertyLeaseTable = get_city_lease_table(city);
+    char face;
+    List_t propertyLeaseList = NULL;
+    Block_t block = NULL;
+    Lease_t property = NULL;
+    for (int i = 0; i < get_table_size(propertyLeaseTable); ++i) {
+        propertyLeaseList = get_index_list(propertyLeaseTable, i);
+        for(Node_t node = get_list_first(propertyLeaseList); node != NULL; node = get_list_next(node)){
+            property = get_item_info(get_list_info(node));
+            block = get_info_from_key(_blocksTable, get_property_cep(property));
+            if(block != NULL){
+                if(is_block_inside_rect(block, x, y, w, h)){
+                    print_property(property, txtFile);
+                    print_person_resident_txt(get_item(get_city_resident_table(city), get_lessee(property)), get_item(get_city_people_table(city), get_lessee(property)), txtFile);
+                    face = get_property_side(property);
+                    if(face == 'N'){
+                        print_circle(get_block_x(block) + get_block_width(block)/2, get_block_y(block) + get_block_height(block), 2, "black", "pink", "2px", qrySVGFile);
+                    }
+                    else if(face == 'S'){
+                        print_circle(get_block_x(block) + get_block_width(block)/2, get_block_y(block) + 20, 2, "black", "pink", "2px", qrySVGFile);
+                    }
+                    else if(face == 'L'){
+                        print_circle(get_block_x(block) + 8, get_block_y(block) + get_block_height(block) * 0.5, 2, "black", "pink", "2px", qrySVGFile);
+                    }
+                    else if(face == 'O'){
+                        print_circle(get_block_x(block) + get_block_width(block) - 10, get_block_y(block) + get_block_height(block) * 0.5, 2, "black", "pink", "2px", qrySVGFile);
+                    }
+                }
+            }
+        }
+    }
+
+
 }

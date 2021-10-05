@@ -63,6 +63,16 @@ void qry_treat(City_t city, FILE *qryFile, FILE *qrySVGFile, FILE *qryTXTFile){
             fscanf(qryFile, "%s", id);
             dloc(city, id, qryTXTFile, qrySVGFile);
         }
+        if(strcmp(aux, "hom") == 0) {
+            fprintf(qryTXTFile, "hom\n");
+            fscanf(qryFile, "%lf %lf %lf %lf", &x, &y, &w, &h);
+            hom(city, x, y, w, h, qryTXTFile, qrySVGFile);
+        }
+        if(strcmp(aux, "mul") == 0) {
+            fprintf(qryTXTFile, "hom\n");
+            fscanf(qryFile, "%lf %lf %lf %lf", &x, &y, &w, &h);
+            mul(city, x, y, w, h, qryTXTFile, qrySVGFile);
+        }
     }
     print_tree(get_tree_root(_blocksTree), qrySVGFile, print_block);
     close_svg(qrySVGFile);

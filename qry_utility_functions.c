@@ -1,3 +1,4 @@
+#include <string.h>
 #include "qry_utility_functions.h"
 void loc_print(People_t person, Lease_t property, FILE *qrySVGFile, double x){
 
