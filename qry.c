@@ -5,8 +5,8 @@
 #include <stdio.h>
 #include "qry_functions.h"
 
-void qry_treat(City_t city, FILE *qryFile, FILE *qrySVGFile, FILE *qryTXTFile){
-    char aux[5], cep[25], cpf[20], side, compl[25], id[50];
+void qry_treat(City_t city, FILE *qryFile, FILE *qrySVGFile, FILE *qryTXTFile, char *outPath){
+    char aux[5], cep[25], cpf[20], side, compl[25], id[50], dmptFilename[50];
     AvlTree_t _blocksTree = get_city_blocks_tree(city);
     double ar, v, x, y, w, h;
     int num;
@@ -72,6 +72,10 @@ void qry_treat(City_t city, FILE *qryFile, FILE *qrySVGFile, FILE *qryTXTFile){
             fprintf(qryTXTFile, "hom\n");
             fscanf(qryFile, "%lf %lf %lf %lf", &x, &y, &w, &h);
             mul(city, x, y, w, h, qryTXTFile, qrySVGFile);
+        }
+        if(strcmp(aux, "dmpt") == 0){
+            fscanf(qryFile, "%s", dmptFilename);
+            dmpt(city, dmptFilename, outPath);
         }
     }
     print_tree(get_tree_root(_blocksTree), qrySVGFile, print_block);

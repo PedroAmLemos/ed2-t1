@@ -27,4 +27,6 @@ void dloc(City_t city, char id[], FILE *txtFile, FILE *svgFile);
 void hom(City_t city, double x, double y, double w, double h, FILE *txtFile, FILE *qrySVGFile);
 
 void mul(City_t city, double x, double y, double w, double h, FILE *txtFile, FILE *qrySVGFile);
+
+void dmpt(City_t city, char *fileName, char *outPath);
 #endif //QRY_FUNCTIONS_H_

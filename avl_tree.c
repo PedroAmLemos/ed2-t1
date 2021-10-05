@@ -414,3 +414,88 @@ void remove_tree_fp(AvlTree_t _avlTree, const double *point){
     Tree *tree = (Tree*) _avlTree;
     remove_tree_util(tree->root, point[0], point[1]);
 }
+
+void print_dmpt(AvlTreeNode_t _node, FILE *dmptFILE){
+    TreeNode * node = (TreeNode *) _node;
+
+    if(node == NULL){
+        return;
+    }
+    char *edge = " -> ";
+    char *NullNode = " [shape=point, style=\"invis\"]";
+    char *invisEdge = " [style=\"invis\"]";
+    char *ident = "   ";
+
+    char cep1[20];
+    char cep2[20];
+    int qtdQuadras = get_list_size(node->list);
+    int fb = get_node_factor(node);
+    double xMin = node->lesserX;
+    double xMax = node->biggerX;
+
+    strcpy(cep1, get_block_cep(get_list_info(get_list_first(node->list))));
+    if(qtdQuadras >= 2)
+        strcpy(cep2, get_block_cep(get_list_info(get_list_next(get_list_first(node->list)))));
+
+    char rtkey[100];
+    char rtlabel[500];
+    sprintf(rtkey,"%f", node->key);
+
+    if(qtdQuadras == 1)
+        sprintf(rtlabel, "%s [label=\"X: %.2lf\nQtd de quadras: %d\nCEP: %s\nAltura: %d FB: %d\nX min: %.2lf\nX max: %.2lf\"]", rtkey, node->key, qtdQuadras, cep1, node->height, fb, xMin, xMax);
+    else
+        if(qtdQuadras == 2){
+            sprintf(rtlabel, "%s [label=\"X: %.2lf\nQtd de quadras: %d\nCEP 1: %s\nCEP 2: %s\nAltura: %d FB: %d\nX min: %.2lf\nX max: %.2lf\"]", rtkey, node->key, qtdQuadras, cep1, cep2, node->height, fb, xMin, xMax);
+        }
+        else{
+            sprintf(rtlabel, "%s [label=\"X: %.2lf\nQtd de quadras: %d\nCEP 1: %s\nCEP 2: %s\n(...)\nAltura: %d FB: %d\nX min: %.2lf\nX max: %.2lf\"]", rtkey, node->key, qtdQuadras, cep1, cep2, node->height, fb, xMin, xMax);
+        }
+    char lst[550];
+    char rst[550];
+
+    char lkey[100];
+    char rkey[100];
+    char lpreamb[200];
+    char rpreamb[200];
+    char lpost[100];
+    char rpost[100];
+
+    if(node->left != NULL){
+        sprintf(lpreamb, "");
+        sprintf(lkey, "%f", node->left->key);
+        sprintf(lpost, "");
+    }
+    else {
+        /* Nao existe sub-arvore esquerda. Coloca uma
+        "folha falsa" invisivel para tentar garantir
+        que a sub-arvore direita  seja desenhada um pouco
+        para a direita */
+
+        sprintf(lkey, "null");
+        sprintf(lpreamb, "%s%s%s;\n", ident, lkey, NullNode);
+        sprintf(lpost, "%s", invisEdge);
+    }
+
+    if(node->right != NULL){
+        sprintf(rpreamb, "");
+        sprintf(rkey, "%f", node->right->key);
+        sprintf(rpost, "");
+    }
+    else{
+        /* NÃ£o existe sub-arvore direita. Coloca "folha falsa" invisivel" */
+        sprintf(rkey, "null");
+        sprintf(rpreamb, "%s%s%s;\n", ident, rkey, NullNode);
+        sprintf(rpost, "%s", invisEdge);
+    }
+    sprintf(lst, "%s%s%s%s%s%s ;\n", lpreamb, ident, rtkey, edge, lkey, lpost);
+    sprintf(rst, "%s%s%s%s%s%s ;\n", rpreamb, ident, rtkey, edge, rkey, rpost);
+    fprintf(dmptFILE, "%s", rtlabel);
+    fprintf(dmptFILE, "%s", lst);
+    fprintf(dmptFILE, "%s", rst);
+
+    print_dmpt(node->left, dmptFILE);
+    print_dmpt(node->right, dmptFILE);
+}
+//
+//
+//}

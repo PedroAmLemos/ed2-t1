@@ -60,4 +60,6 @@ Info_t get_node_list(AvlTreeNode_t node_);
 
 List_t get_tree_node_list_info(AvlTreeNode_t _avlTree, const double *point, double*(*get_point)(void*));
 
+void print_dmpt(AvlTreeNode_t _node, FILE *dmptFILE);
+
 #endif //AVL_TREE_H_

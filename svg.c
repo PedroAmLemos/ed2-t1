@@ -29,7 +29,7 @@ void print_hash_table(HashTable_t hashTable_, FILE *svgFile, void(*print)(void*,
 }
 
 void print_line(double x1, double y1, double x2, double y2, char stroke[], FILE *svgFile){
-    fprintf(svgFile, "\t<line x1=\"%.2f\" y1=\"%.2f\" x2=\"%.2f\" y2=\"%.2f\" stroke=\"%s\" opacity=\"0.6\"/>\n",
+    fprintf(svgFile, "\t<line x1=\"%.2f\" y1=\"%.2f\" x2=\"%.2f\" y2=\"%.2f\" stroke=\"%s\" opacity=\"1\"/>\n",
             x1, y1, x2, y2, stroke);
 }
 

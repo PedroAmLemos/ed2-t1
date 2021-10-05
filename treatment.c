@@ -30,7 +30,7 @@ void pm_treat(HashTable_t people_, HashTable_t residents_, FILE *pmFile){
     }
 }
 
-void main_treatment(FILE *geoFile, FILE *qryFile, FILE *geoSVGFile, FILE *qrySVGFile, FILE *qryTXTFile, FILE *pmFile){
+void main_treatment(FILE *geoFile, FILE *qryFile, FILE *geoSVGFile, FILE *qrySVGFile, FILE *qryTXTFile, FILE *pmFile, char *outPath){
     int nx = 0;
     double x = 0, y = 0, w = 0, h = 0;
     char aux[5], cep[200], sw[250] = "1.0px", fill[250] = "blue", stroke[250] = "green";
@@ -76,7 +76,7 @@ void main_treatment(FILE *geoFile, FILE *qryFile, FILE *geoSVGFile, FILE *qrySVG
     }
 
     if(qryFile) {
-        qry_treat(city, qryFile, qrySVGFile, qryTXTFile);
+        qry_treat(city, qryFile, qrySVGFile, qryTXTFile, outPath);
     }
 
     delete_city(city);

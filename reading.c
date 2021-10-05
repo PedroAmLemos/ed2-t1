@@ -79,7 +79,7 @@ void read(char *entryPath, char *geo, char *qry, char *outPath, char *pm){
         pmFile = fopen(pmPath, "r");
     }
 
-    main_treatment(geoFile, qryFile, geoSVGFile, qrySVGFile, qryTXTFile, pmFile);
+    main_treatment(geoFile, qryFile, geoSVGFile, qrySVGFile, qryTXTFile, pmFile, outPath);
 
     /* ---Free mallocs and closing files--*/
     free(geoName);

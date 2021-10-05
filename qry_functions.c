@@ -5,6 +5,7 @@
 #include "block.h"
 #include "resident.h"
 #include "wrapper.h"
+#include "reading_utility.h"
 #include <string.h>
 #include <stdio.h>
 
@@ -389,5 +390,37 @@ void mul(City_t city, double x, double y, double w, double h, FILE *txtFile, FIL
         }
     }
 
+
+}
+
+void dmpt(City_t city, char *fileName, char *outPath){
+    char *dmptFile = NULL;
+    char *dmptFilePath = NULL;
+    dmptFilePath = concat_path_file(outPath, fileName);
+    dmptFile = malloc(sizeof(char) * (strlen(dmptFilePath)+ 9));
+
+    strcpy(dmptFile, dmptFilePath);
+    strcat(dmptFile, "-sfx.dot");
+
+    FILE *dmpt = fopen(dmptFile, "w");
+    AvlTreeNode_t root = get_tree_root(get_city_blocks_tree(city));
+    int size = get_table_size(get_city_blocks_table(city));
+
+    fprintf(dmpt,"digraph T {\n");
+    fprintf(dmpt, "\tsize=\"%d\"\n", size*20);
+    fprintf(dmpt, "\tnode [color=purple, style=filled]\n");
+
+    print_dmpt(root, dmpt);
+
+    fprintf(dmpt,"}\n");
+    fclose(dmpt);
+    free(dmptFilePath);
+    free(dmptFile);
+
+
+
+}
+
+void catac(City_t city, double x, double y, double w, double h, FILE *txtFile, FILE *qrySVGFile){
 
 }

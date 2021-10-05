@@ -6,6 +6,6 @@
 #include "avl_tree.h"
 #include "linked_list.h"
 
-void qry_treat(City_t city, FILE *qryFile, FILE *qrySVGFile, FILE *qryTXTFile);
+void qry_treat(City_t city, FILE *qryFile, FILE *qrySVGFile, FILE *qryTXTFile, char *outPath);
 
 #endif //QRY_H_
