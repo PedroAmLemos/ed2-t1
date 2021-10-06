@@ -138,7 +138,6 @@ void oloc_i(City_t city, double x, double y, double w, double h, FILE *qryTXTFil
     List_t propertyLeaseList = NULL;
     Block_t block = NULL;
     Lease_t property = NULL;
-    print_rectangle_dashed(x, y, w, h, qrySVGFile);
     for (int i = 0; i < get_table_size(propertyLeaseTable); ++i) {
         propertyLeaseList = get_index_list(propertyLeaseTable, i);
         for(Node_t node = get_list_first(propertyLeaseList); node != NULL; node = get_list_next(node)){
@@ -411,7 +410,6 @@ void catac(City_t city, double x, double y, double w, double h, FILE *txtFile, F
     AvlTree_t tree = get_city_blocks_tree(city);
     Block_t block;
     char *cep;
-    print_rectangle_dashed(0, 0, 1500, 1500, svgFile);
 
     List_t cepsToRemove = get_inside(tree, x, y, w, h);
 

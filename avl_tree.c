@@ -249,10 +249,6 @@ List_t search_tree_util(TreeNode* root, double key){
         return root->list;
     }
 
-    if(key > root->biggerX || key < root->lesserX){
-        return NULL;
-    }
-
     List_t aux = NULL;
 
     if(key > root->key){

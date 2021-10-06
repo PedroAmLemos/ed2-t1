@@ -72,7 +72,7 @@ List_t get_cep_residents(HashTable_t _residentTable, char *cep) {
     }
     int tableSize = get_table_size(_residentTable);
 
-    List_t tableList;
+    List_t tableList = NULL;
     for (int i = 0; i < tableSize; i++){
         tableList = get_index_list(_residentTable, i);
         if(tableList != NULL){

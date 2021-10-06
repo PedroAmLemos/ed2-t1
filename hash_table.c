@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdio.h>
 #include "linked_list.h"
 #include "hash_table.h"
 
@@ -91,8 +92,14 @@ void remove_item(HashTable_t _hashTable, char key[], int flag){
 
     for(Node_t aux = get_list_first(hashTable->table[hashKey]); aux != NULL; aux = get_list_next(aux)){
         HashTableItem *item = (HashTableItem*) get_list_info(aux);
+        if(item == NULL){
+            return;
+        }
         if(strcmp(item->key, key) == 0) {
             remove_list_node(hashTable->table[hashKey], aux, carlos[flag]);
+            if(get_list_size(aux) == 0){
+                hashTable->table[hashKey] = NULL;
+            }
             return;
         }
     }

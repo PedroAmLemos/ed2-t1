@@ -74,6 +74,7 @@ void remove_list(List_t _list, void(*remove)(void*)){
 }
 
 Node_t get_list_first(List_t list_){
+//    if(list_ == NULL) return NULL;
     List *list = (List*) list_;
     return list->first;
 }

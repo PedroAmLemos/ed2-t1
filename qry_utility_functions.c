@@ -24,10 +24,9 @@ void catac_remove(City_t city, char *cep, FILE *qryTXTFile) {
     AvlTree_t _blockTree = get_city_blocks_tree(city);
 
     Block_t block = get_item(_blockTable, cep);
-    if(block != NULL){
+    if(block != NULL) {
         fprintf(qryTXTFile, "Bloco removido\n");
         print_block_txt(block, qryTXTFile);
-        remove_block(_blockTable, _blockTree, remove_hash_table_tree, cep);
     }
 
     List_t residentsToRemove = get_cep_residents(_residents, cep);
@@ -52,4 +51,8 @@ void catac_remove(City_t city, char *cep, FILE *qryTXTFile) {
         remove_item(_propertyTable, get_list_info(node), 1);
     }
     remove_list(propertyToRemove, NULL);
+
+    if(block != NULL){
+        remove_block(_blockTable, _blockTree, remove_hash_table_tree, cep);
+    }
 }
