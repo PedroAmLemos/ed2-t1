@@ -47,6 +47,11 @@ Info_t get_list_info(Node_t node_);
  */
 int get_list_size(List_t _list);
 
+/*
+ * Recebe uma lista de quadras e armazena os ceps, das que estiverem na área passada, na lista storage.
+ * Pré: dois ponteiros void* para listas e uma área representada pelo ponto x, y, a largura e altura w, h.
+ * Pós:
+ */
 void get_points_inside(List_t _list, List_t storage, double x, double y, double w, double h);
 
 
