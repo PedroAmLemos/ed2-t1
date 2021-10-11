@@ -197,7 +197,6 @@ TreeNode* get_smallest(TreeNode* this){
     return node1;
 }
 
-// Busca o maior nó
 TreeNode* get_biggest(TreeNode* this){
     if(this == NULL)
         return NULL;
