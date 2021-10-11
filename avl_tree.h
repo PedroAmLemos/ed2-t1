@@ -20,7 +20,9 @@ Função: Dado uma árvore, um ponteiro para Info e uma chave, insere na árvore
 Pré: void* para a árvore, void* para a info, double com valor.
 Pós: Retorna 1 caso bem sucedido ou 0 para key de valor igual.
 */
-int insert_tree(AvlTree_t tree, Info_t info, double key);
+int insert_tree(AvlTree_t tree, Info_t info, double key, double width);
+
+void change_bigger_less(AvlTree_t root);
 
 /*
 Função: Dado uma árvore e uma chave, acha o nó correspondete e o remove da árvore.
@@ -63,5 +65,4 @@ List_t get_tree_node_list_info(AvlTreeNode_t _avlTree, const double *point, doub
 void print_dmpt(AvlTreeNode_t _node, FILE *dmptFILE);
 
 List_t get_inside(AvlTree_t _tree, double x, double y, double w, double h);
-
 #endif //AVL_TREE_H_

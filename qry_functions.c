@@ -404,7 +404,6 @@ void dmpt(City_t city, char *fileName, char *outPath){
 
 
 }
-
 void catac(City_t city, double x, double y, double w, double h, FILE *txtFile, FILE *svgFile){
     HashTable_t blocksTable = get_city_blocks_table(city);
     AvlTree_t tree = get_city_blocks_tree(city);
@@ -419,8 +418,6 @@ void catac(City_t city, double x, double y, double w, double h, FILE *txtFile, F
         print_catac_block(block, svgFile);
         catac_remove(city, cep, txtFile);
     }
-
-
 
     remove_list(cepsToRemove, NULL);
 }

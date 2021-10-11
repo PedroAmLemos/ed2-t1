@@ -1,7 +1,7 @@
 #include <string.h>
 #include "qry_utility_functions.h"
 #include "block.h"
-#include "svg.h"
+#include "resident.h"
 #include "wrapper.h"
 
 void loc_print(People_t person, Lease_t property, FILE *qrySVGFile, double x){
@@ -17,6 +17,12 @@ void loc_print(People_t person, Lease_t property, FILE *qrySVGFile, double x){
             get_property_side(property), get_property_number(property), get_property_compl(property), get_property_ar(property),
             get_property_v(property));
 }
+void catac_remove(City_t city, char *cep, FILE *qryTXTFile) {
+    HashTable_t _blockTable = get_city_blocks_table(city);
+    HashTable_t _residents = get_city_resident_table(city);
+    HashTable_t _propertyTable = get_city_lease_table(city);
+    AvlTree_t _blockTree = get_city_blocks_tree(city);
+
 void catac_remove(City_t city, char *cep, FILE *qryTXTFile) {
     HashTable_t _blockTable = get_city_blocks_table(city);
     HashTable_t _residents = get_city_resident_table(city);

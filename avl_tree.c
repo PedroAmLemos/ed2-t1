@@ -2,6 +2,7 @@
 #include "block.h"
 #include <string.h>
 #include <stdlib.h>
+#define FLAG_STOP_REMOVE -9999
 
 typedef struct TreeNode {
 
@@ -12,6 +13,7 @@ typedef struct TreeNode {
     double key;
     double lesserX;
     double biggerX;
+    double width;
 
 }TreeNode;
 
@@ -129,7 +131,7 @@ void rotate_r_l(TreeNode** root){
 }
 
 // Função de inserção recursiva
-int insert_tree_util(TreeNode** root, Info_t info, double key){
+int insert_tree_util(TreeNode** root, Info_t info, double key, double width){
     int res;
     // Nó folha ou primeiro nó
     if(*root == NULL){
@@ -144,10 +146,10 @@ int insert_tree_util(TreeNode** root, Info_t info, double key){
         new->right = NULL;
         new->height = 0;
         new->key = key;
-        new->biggerX = key;
+        new->biggerX = key + width;
         new->lesserX = key;
+        new->width = width;
         *root = new;
-
         return 1;
     }
 
@@ -156,7 +158,7 @@ int insert_tree_util(TreeNode** root, Info_t info, double key){
 
     // Enquanto for passando pelos nós atualiza o maior e menor :)
     if(this->biggerX < key){
-        this->biggerX = key;
+        this->biggerX = key + width;
     }
     if(this->lesserX > key){
         this->lesserX = key;
@@ -164,7 +166,7 @@ int insert_tree_util(TreeNode** root, Info_t info, double key){
 
     // Adiciona a esquerda e se precisar rotaciona a arvore
     if(key < this->key){
-        if((res= insert_tree_util(&this->left, info, key)) == 1){
+        if((res= insert_tree_util(&this->left, info, key, width)) == 1){
             if(get_node_factor(this) >= 2){
                 if(key < this->left->key){
                     rotate_l_l(root);
@@ -176,7 +178,7 @@ int insert_tree_util(TreeNode** root, Info_t info, double key){
     }else{
         // Adiciona a direita e se precisar rotaciona a arvore
         if(key > this->key){
-            if((res = insert_tree_util(&this->right, info, key)) == 1){
+            if((res = insert_tree_util(&this->right, info, key, width)) == 1){
                 if(get_node_factor(this) >= 2){
                     if(key > this->right->key){
                         rotate_r_r(root);
@@ -197,11 +199,12 @@ int insert_tree_util(TreeNode** root, Info_t info, double key){
 }
 
 // Chama a função recursiva de inserir
-int insert_tree(AvlTree_t tree, Info_t info, double key){
+int insert_tree(AvlTree_t tree, Info_t info, double key, double width){
     Tree* treeAux = (Tree* ) tree;
-    int aux = insert_tree_util(&treeAux->root, info, key);
+    int aux = insert_tree_util(&treeAux->root, info, key, width);
 
     if(aux == 1){
+        change_bigger_less(treeAux->root);
         treeAux->size++;
     }
 
@@ -237,6 +240,18 @@ TreeNode* get_biggest(TreeNode* this){
     }
 
     return node1;
+}
+
+void change_bigger_less(AvlTree_t _root){
+    TreeNode* root = (TreeNode*) _root;
+    if(root == NULL){
+        return;
+    }
+    TreeNode *big = get_biggest(root->right);
+    TreeNode *small = get_smallest(root->left);
+    root->biggerX = big != NULL ? big->key + big->width : root->key + root->width;
+    root->lesserX = small != NULL ? small->key : root->key;
+
 }
 
 // Recursivamente busca com a key a lista com os valores
@@ -295,10 +310,12 @@ void print_tree_node(AvlTreeNode_t node_, FILE *svgFile, void(*print)(void*, FIL
 }
 
 Block_t get_tree_node_list_info(AvlTreeNode_t _avlTree, const double *point, double*(*get_point)(void*)){
+    if(_avlTree == NULL) return NULL;
     double x = point[0];
     double y = point[1];
     double *nodeListInfoPoint;
     List_t nodeList = search_tree(_avlTree, x);
+    if(nodeList == NULL) return NULL;
     for(Node_t node = get_list_first(nodeList); node != NULL; node = get_list_next(node)) {
          nodeListInfoPoint = get_point(get_list_info(node));
          if(x == nodeListInfoPoint[0] && y == nodeListInfoPoint[1]){
@@ -310,6 +327,8 @@ Block_t get_tree_node_list_info(AvlTreeNode_t _avlTree, const double *point, dou
 
 List_t get_tree_list(AvlTreeNode_t _avlTree){
     TreeNode* node = (TreeNode * ) _avlTree;
+    if(node == NULL) return NULL;
+    if(node->list == NULL) return NULL;
     return node->list;
 }
 
@@ -318,9 +337,10 @@ int remove_tree_util(TreeNode *avlNode, double x, double y){
     if(avlNode == NULL ){
         return 0;
     }
-    if(x > avlNode->biggerX || x < avlNode->lesserX){
-        return 0;
-    }
+
+//    if(x > avlNode->biggerX || x < avlNode->lesserX){
+//        return 0;
+//    }
 
     // if so, continues to left, balancing if needed
     if(x < avlNode->key){
@@ -350,56 +370,53 @@ int remove_tree_util(TreeNode *avlNode, double x, double y){
         }
     }
 
-    // achou
-    if(x == avlNode->key){
-        List_t list = get_tree_list(avlNode);
-        Block_t block = NULL;
-        double blockPoint[2];
-        for(Node_t node = get_list_first(list); node != NULL; node = get_list_next(node)){
-            block = get_list_info(node);
-            blockPoint[0] = get_block_x(block);
-            blockPoint[1] = get_block_y(block);
-            if(blockPoint[0] == x && blockPoint[1] == y){
-                remove_list_node(list, node, NULL);
-                if(get_list_size(list) == 0){
-                    remove_list(list, NULL);
-                    avlNode->list = NULL;
-                }
-                break;
+    if(x == avlNode->key && (get_list_size(avlNode->list) > 1 && y != FLAG_STOP_REMOVE)) {
+        for(Node_t node = get_list_first(avlNode->list); node; node = get_list_next(node)){
+            Block_t block = get_list_info(node);
+            if(y == get_block_y(block)){
+                remove_list_node(avlNode->list, node, NULL);
+                return 1;
             }
         }
-        if(avlNode->list == NULL){
-            if(avlNode->left == NULL || avlNode->right == NULL){
-                TreeNode *old = avlNode;
-                if(avlNode->left != NULL){
-                    avlNode = avlNode->left;
-                }else{
-                    avlNode = avlNode->right;
-                }
-                free(old);
+    }
+
+    if(x == avlNode->key && get_list_size(avlNode->list) == 1 || (x == avlNode->key && y == FLAG_STOP_REMOVE)){
+        if(avlNode->left == NULL || avlNode->right == NULL){
+            TreeNode *oldNode = avlNode;
+            if(avlNode->left != NULL){
+                avlNode = avlNode->left;
             }else{
-                TreeNode *temp = get_smallest(avlNode->right);
-                avlNode->list = temp->list;
-                remove_tree_util(avlNode->right, avlNode->key, y);
-                if(get_node_factor(avlNode) >= 2){
-                    if(get_node_height(avlNode->left->right) <= get_node_height(avlNode->left->left)){
-                        rotate_l_l(&avlNode);
-                    }else{
-                        rotate_l_r(&avlNode);
-                    }
+                avlNode = avlNode->right;
+            }
+
+            free(oldNode);
+        }else{
+            TreeNode *tmp = get_smallest(avlNode->right);
+
+            remove_list(avlNode->list, free);
+            avlNode->list = tmp->list;
+            avlNode->key = tmp->key;
+            TreeNode *big = get_biggest(avlNode->right);
+            TreeNode *small = get_smallest(avlNode->left);
+            avlNode->biggerX = big != NULL ? big->key + big->width : avlNode->key + avlNode->width;
+            avlNode->lesserX = small != NULL ? small->key : avlNode->key;
+
+            remove_tree_util(avlNode->right, avlNode->key, FLAG_STOP_REMOVE);
+            if(get_node_factor(avlNode) >= 2){
+                if(get_node_height(avlNode->left->right) <= get_node_height(avlNode->left->left)){
+                    rotate_l_l(&avlNode);
+                }else{
+                    rotate_l_r(&avlNode);
                 }
             }
         }
         return 1;
     }
+
     TreeNode *big = get_biggest(avlNode->right);
-    TreeNode *less= get_smallest(avlNode->left);
-    if(big != NULL){
-        avlNode->biggerX = big->key;
-    }
-    if(less != NULL){
-        avlNode->lesserX = less->key;
-    }
+    TreeNode *small = get_smallest(avlNode->left);
+    avlNode->biggerX = big != NULL ? big->key + big->width : avlNode->key + avlNode->width;
+    avlNode->lesserX = small != NULL ? small->key : avlNode->key;
     return res;
 }
 

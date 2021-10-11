@@ -55,7 +55,7 @@ void main_treatment(FILE *geoFile, FILE *qryFile, FILE *geoSVGFile, FILE *qrySVG
         if((strcmp(aux,"q"))==0) {
             fscanf(geoFile, "%s %lf %lf %lf %lf", cep, &x, &y, &w, &h);
             block = create_block(cep, x, y, w, h, sw, stroke, fill);
-            insert_tree(blocksTree, block, x);
+            insert_tree(blocksTree, block, x, w);
             insert_hash(blocksTable, cep, block);
         }
         if((strcmp(aux, "cq"))==0){
