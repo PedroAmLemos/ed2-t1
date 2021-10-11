@@ -53,4 +53,11 @@ void print_text(double x, double y, char text[], FILE *svgFile);
  */
 void print_circle(double cx, double cy, double r, char stroke[], char fill[], char sw[], FILE *svgFile);
 
+/*
+ * Imprime um retângulo tracejado.
+ * Pré: recebe os valores para impressão e o arquivo svg.
+ * Pós:
+ */
+void print_rectangle_dashed(double x, double y, double w, double h, FILE *svgFile);
+
 #endif //SVG_H_
