@@ -384,7 +384,7 @@ int remove_tree_util(TreeNode *avlNode, double x, double y){
         }
     }
 
-    if(x == avlNode->key && get_list_size(avlNode->list) == 1 || (x == avlNode->key && y == FLAG_STOP_REMOVE)){
+    if((x == avlNode->key && get_list_size(avlNode->list) == 1) || (x == avlNode->key && y == FLAG_STOP_REMOVE)){
         if(avlNode->left == NULL || avlNode->right == NULL){
             TreeNode *oldNode = avlNode;
             if(avlNode->left != NULL){
