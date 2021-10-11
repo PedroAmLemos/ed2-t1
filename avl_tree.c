@@ -162,7 +162,6 @@ int insert_tree_util(TreeNode** root, Info_t info, double key, double width){
             }
         }
     }else{
-        // Adiciona a direita e se precisar rotaciona a arvore
         if(key > this->key){
             if((aux = insert_tree_util(&this->right, info, key, width)) == 1){
                 if(get_node_factor(this) >= 2){
@@ -183,7 +182,6 @@ int insert_tree_util(TreeNode** root, Info_t info, double key, double width){
 
     return aux;
 }
-
 
 TreeNode* get_smallest(TreeNode* this){
     if(this == NULL)
@@ -319,13 +317,7 @@ int remove_tree_util(TreeNode *avlNode, double x, double y){
     if(avlNode == NULL ){
         return 0;
     }
-
-//    if(x > avlNode->biggerX || x < avlNode->lesserX){
-//        return 0;
-//    }
-
-    // if so, continues to left, balancing if needed
-    if(x < avlNode->key){
+   if(x < avlNode->key){
         res = remove_tree_util(avlNode->left, x, y);
         if(res){
             if(get_node_factor(avlNode) >= 2) {
@@ -362,7 +354,7 @@ int remove_tree_util(TreeNode *avlNode, double x, double y){
         }
     }
 
-    if(x == avlNode->key && get_list_size(avlNode->list) == 1 || (x == avlNode->key && y == carlos)){
+    if((x == avlNode->key && get_list_size(avlNode->list) == 1) || (x == avlNode->key && y == carlos)){
         if(avlNode->left == NULL || avlNode->right == NULL){
             TreeNode *oldNode = avlNode;
             if(avlNode->left != NULL){
@@ -458,11 +450,6 @@ void print_dmpt(AvlTreeNode_t _node, FILE *dmptFILE){
         sprintf(lpost, "");
     }
     else {
-        /* Nao existe sub-arvore esquerda. Coloca uma
-        "folha falsa" invisivel para tentar garantir
-        que a sub-arvore direita  seja desenhada um pouco
-        para a direita */
-
         sprintf(lkey, "null");
         sprintf(lpreamb, "%s%s%s;\n", ident, lkey, NullNode);
         sprintf(lpost, "%s", invisEdge);
@@ -474,7 +461,6 @@ void print_dmpt(AvlTreeNode_t _node, FILE *dmptFILE){
         sprintf(rpost, "");
     }
     else{
-        /* NÃ£o existe sub-arvore direita. Coloca "folha falsa" invisivel" */
         sprintf(rkey, "null");
         sprintf(rpreamb, "%s%s%s;\n", ident, rkey, NullNode);
         sprintf(rpost, "%s", invisEdge);

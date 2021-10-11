@@ -79,3 +79,4 @@ List_t get_tree_node_list_info(AvlTreeNode_t _avlTree, const double *point, doub
 List_t get_inside(AvlTree_t _tree, double x, double y, double w, double h);
 
 #endif //AVL_TREE_H_
+
