@@ -313,13 +313,13 @@ List_t get_tree_list(AvlTreeNode_t _avlTree){
 }
 
 int remove_tree_util(TreeNode *avlNode, double x, double y){
-    int res = 0;
+    int aux = 0;
     if(avlNode == NULL ){
         return 0;
     }
    if(x < avlNode->key){
-        res = remove_tree_util(avlNode->left, x, y);
-        if(res){
+       aux = remove_tree_util(avlNode->left, x, y);
+        if(aux){
             if(get_node_factor(avlNode) >= 2) {
                 if(get_node_height(avlNode->right->left) <= get_node_height(avlNode->right->right)){
                     rotate_r_r(&avlNode);
@@ -332,8 +332,8 @@ int remove_tree_util(TreeNode *avlNode, double x, double y){
 
     // does the same for the right
     if(x > avlNode->key){
-        res = remove_tree_util(avlNode->right, x, y);
-        if(res){
+        aux = remove_tree_util(avlNode->right, x, y);
+        if(aux){
             if(get_node_factor(avlNode) >= 2){
                 if(get_node_height(avlNode->left->right) <= get_node_height(avlNode->left->left)){
                     rotate_l_l(&avlNode);
@@ -391,7 +391,7 @@ int remove_tree_util(TreeNode *avlNode, double x, double y){
     TreeNode *small = get_smallest(avlNode->left);
     avlNode->biggerX = big != NULL ? big->key + big->width : avlNode->key + avlNode->width;
     avlNode->lesserX = small != NULL ? small->key : avlNode->key;
-    return res;
+    return aux;
 }
 
 void remove_tree_fp(AvlTree_t _avlTree, const double *point){
