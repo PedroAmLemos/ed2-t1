@@ -101,3 +101,12 @@ int is_block_inside_rect(Block_t _block, double x2, double y2, double w2, double
     return x1 >= x2 && y1 >= y2 && x1 + w1 <= x2 + w2 && y1 + h1 <= y2 + h2;
 }
 
+void print_catac_block(Block_t _block, FILE *svgFile){
+    Block *block = (Block*) _block;
+    if(block == NULL){
+        return;
+    }
+    fprintf(svgFile,"\t<rect x=\"%f\" y=\"%f\" width=\"%f\" height=\"%f\" fill=\"#AB37C8\" opacity=\"0.5\" stroke=\"#AA0044\" stroke-width=\"%s\"/>\n",
+            block->point[0], block->point[1], block->width, block->height, block->sw);
+}
+

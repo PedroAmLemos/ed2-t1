@@ -77,6 +77,11 @@ void qry_treat(City_t city, FILE *qryFile, FILE *qrySVGFile, FILE *qryTXTFile, c
             fscanf(qryFile, "%s", dmptFilename);
             dmpt(city, dmptFilename, outPath);
         }
+        if(strcmp(aux, "catac") == 0){
+            fscanf(qryFile, "%lf %lf %lf %lf", &x, &y, &w, &h);
+            fprintf(qryTXTFile, "catac\n");
+            catac(city, x, y, w, h, qryTXTFile, qrySVGFile);
+        }
     }
     print_tree(get_tree_root(_blocksTree), qrySVGFile, print_block);
     close_svg(qrySVGFile);

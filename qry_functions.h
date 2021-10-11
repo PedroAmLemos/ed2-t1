@@ -29,4 +29,6 @@ void hom(City_t city, double x, double y, double w, double h, FILE *txtFile, FIL
 void mul(City_t city, double x, double y, double w, double h, FILE *txtFile, FILE *qrySVGFile);
 
 void dmpt(City_t city, char *fileName, char *outPath);
+
+void catac(City_t city, double x, double y, double w, double h, FILE *txtFile, FILE *svgFile);
 #endif //QRY_FUNCTIONS_H_

@@ -34,4 +34,6 @@ char *get_block_stroke(Block_t _block);
 
 char *get_block_fill(Block_t _block);
 
+void print_catac_block(Block_t _block, FILE *svgFile);
+
 #endif //BLOCK_H_

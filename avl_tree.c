@@ -314,10 +314,12 @@ void print_tree_node(AvlTreeNode_t node_, FILE *svgFile, void(*print)(void*, FIL
 }
 
 Block_t get_tree_node_list_info(AvlTreeNode_t _avlTree, const double *point, double*(*get_point)(void*)){
+    if(_avlTree == NULL) return NULL;
     double x = point[0];
     double y = point[1];
     double *nodeListInfoPoint;
     List_t nodeList = search_tree(_avlTree, x);
+    if(nodeList == NULL) return NULL;
     for(Node_t node = get_list_first(nodeList); node != NULL; node = get_list_next(node)) {
          nodeListInfoPoint = get_point(get_list_info(node));
          if(x == nodeListInfoPoint[0] && y == nodeListInfoPoint[1]){
@@ -376,8 +378,7 @@ int remove_tree_util(TreeNode *avlNode, double x, double y){
         for(Node_t node = get_list_first(avlNode->list); node; node = get_list_next(node)){
             Block_t block = get_list_info(node);
             if(y == get_block_y(block)){
-                remove_list_node(avlNode->list, node, free);
-                free(block);
+                remove_list_node(avlNode->list, node, NULL);
                 return 1;
             }
         }
@@ -512,6 +513,31 @@ void print_dmpt(AvlTreeNode_t _node, FILE *dmptFILE){
     print_dmpt(node->left, dmptFILE);
     print_dmpt(node->right, dmptFILE);
 }
-//
-//
-//}
+
+void get_inside_util(AvlTreeNode_t _node, List_t storage, double x, double y, double w, double h){
+    if(_node == NULL){
+        return;
+    }
+
+    TreeNode *node = (TreeNode*) _node;
+
+    get_inside_util(node->left, storage, x, y, w, h);
+    get_inside_util(node->right, storage, x, y, w, h);
+    List_t list = node->list;
+    Block_t block = NULL;
+
+
+    for(Node_t listNode = get_list_first(list); listNode != NULL; listNode = get_list_next(listNode)) {
+        block = get_list_info(listNode);
+        if(is_block_inside_rect(block, x, y, w, h)) {
+            insert_list(storage, get_block_cep(block));
+        }
+    }
+}
+
+List_t get_inside(AvlTree_t _tree, double x, double y, double w, double h){
+    List_t inside = create_list();
+    Tree *tree = (Tree *) _tree;
+    get_inside_util(tree->root, inside, x, y, w, h);
+    return inside;
+}
