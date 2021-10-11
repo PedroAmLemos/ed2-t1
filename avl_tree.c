@@ -24,7 +24,6 @@ typedef struct Tree{
 
 }Tree;
 
-// Cria e retorna uma árvore
 AvlTree_t create_tree(){
     Tree* new = (Tree* ) malloc(sizeof(Tree));
 
@@ -34,7 +33,6 @@ AvlTree_t create_tree(){
     return new;
 }
 
-// Encerra recursivamente nó por nó da árvore
 void delete_tree_nodes(TreeNode* root){
 
     if(root == NULL){
@@ -48,7 +46,6 @@ void delete_tree_nodes(TreeNode* root){
     free(root);
 }
 
-// Encerra toda a árvore
 int delete_tree(AvlTree_t _tree){
     Tree* treeAux = (Tree* ) _tree;
 
@@ -63,7 +60,6 @@ int delete_tree(AvlTree_t _tree){
     return 1;
 }
 
-// Retorna a altura do nó, caso o nó não exista retorna -1
 int get_node_height(TreeNode* node){
     if(node == NULL){
         return -1;
@@ -72,12 +68,10 @@ int get_node_height(TreeNode* node){
     }
 }
 
-// Retorna o fator de balanceamento;
 int get_node_factor(TreeNode* node){
     return (int) labs(get_node_height(node->left) - get_node_height(node->right));
 }
 
-// Retorna o maior valor dentre 2 inteiros
 int biggest(int x, int y){
     if(x > y){
         return x;
@@ -86,7 +80,6 @@ int biggest(int x, int y){
     }
 }
 
-// Rotaciona a arvore tipo esquerda esquerda
 void rotate_l_l(TreeNode** root){
     TreeNode* node;
     node = (*root)->left;
@@ -102,7 +95,6 @@ void rotate_l_l(TreeNode** root){
     *root = node;
 }
 
-// Rotaciona a arvore tipo direita direita
 void rotate_r_r(TreeNode** root){
     TreeNode* node;
     node = (*root)->right;
@@ -118,22 +110,18 @@ void rotate_r_r(TreeNode** root){
     *root = node;
 }
 
-// Rotaciona a arvore tipo Esquerda Direita
 void rotate_l_r(TreeNode** root){
     rotate_r_r(&(*root)->left);
     rotate_l_l(root);
 }
 
-// Rotaciona a arvore tipo Direita Esquerda
 void rotate_r_l(TreeNode** root){
     rotate_l_l(&(*root)->right);
     rotate_r_r(root);
 }
 
-// Função de inserção recursiva
 int insert_tree_util(TreeNode** root, Info_t info, double key, double width){
     int res;
-    // Nó folha ou primeiro nó
     if(*root == NULL){
         TreeNode* new = (TreeNode* ) malloc(sizeof(TreeNode));
         if(new == NULL){
@@ -156,7 +144,6 @@ int insert_tree_util(TreeNode** root, Info_t info, double key, double width){
     TreeNode* this = *root;
 
 
-    // Enquanto for passando pelos nós atualiza o maior e menor :)
     if(this->biggerX < key){
         this->biggerX = key + width;
     }
@@ -164,7 +151,6 @@ int insert_tree_util(TreeNode** root, Info_t info, double key, double width){
         this->lesserX = key;
     }
 
-    // Adiciona a esquerda e se precisar rotaciona a arvore
     if(key < this->key){
         if((res= insert_tree_util(&this->left, info, key, width)) == 1){
             if(get_node_factor(this) >= 2){
@@ -176,7 +162,6 @@ int insert_tree_util(TreeNode** root, Info_t info, double key, double width){
             }
         }
     }else{
-        // Adiciona a direita e se precisar rotaciona a arvore
         if(key > this->key){
             if((res = insert_tree_util(&this->right, info, key, width)) == 1){
                 if(get_node_factor(this) >= 2){
@@ -198,21 +183,6 @@ int insert_tree_util(TreeNode** root, Info_t info, double key, double width){
     return res;
 }
 
-// Chama a função recursiva de inserir
-int insert_tree(AvlTree_t tree, Info_t info, double key, double width){
-    Tree* treeAux = (Tree* ) tree;
-    int aux = insert_tree_util(&treeAux->root, info, key, width);
-
-    if(aux == 1){
-        change_bigger_less(treeAux->root);
-        treeAux->size++;
-    }
-
-    return aux;
-
-}
-
-// Busca o menor nó
 TreeNode* get_smallest(TreeNode* this){
     if(this == NULL)
         return NULL;
@@ -254,7 +224,19 @@ void change_bigger_less(AvlTree_t _root){
 
 }
 
-// Recursivamente busca com a key a lista com os valores
+int insert_tree(AvlTree_t tree, Info_t info, double key, double width){
+    Tree* treeAux = (Tree* ) tree;
+    int aux = insert_tree_util(&treeAux->root, info, key, width);
+
+    if(aux == 1){
+        change_bigger_less(treeAux->root);
+        treeAux->size++;
+    }
+
+    return aux;
+
+}
+
 List_t search_tree_util(TreeNode* root, double key){
     if(root == NULL){
         return  NULL;
@@ -279,7 +261,6 @@ List_t search_tree_util(TreeNode* root, double key){
     return aux;
 }
 
-// Chama a função que retorna a lista
 List_t search_tree(AvlTree_t tree, double key){
     Tree* treeAux = (Tree* ) tree;
 
@@ -341,13 +322,7 @@ int remove_tree_util(TreeNode *avlNode, double x, double y){
     if(avlNode == NULL ){
         return 0;
     }
-
-//    if(x > avlNode->biggerX || x < avlNode->lesserX){
-//        return 0;
-//    }
-
-    // if so, continues to left, balancing if needed
-    if(x < avlNode->key){
+   if(x < avlNode->key){
         res = remove_tree_util(avlNode->left, x, y);
         if(res){
             if(get_node_factor(avlNode) >= 2) {
@@ -424,9 +399,6 @@ int remove_tree_util(TreeNode *avlNode, double x, double y){
     return res;
 }
 
-/*
- * from point
- */
 void remove_tree_fp(AvlTree_t _avlTree, const double *point){
     Tree *tree = (Tree*) _avlTree;
     remove_tree_util(tree->root, point[0], point[1]);
@@ -483,11 +455,6 @@ void print_dmpt(AvlTreeNode_t _node, FILE *dmptFILE){
         sprintf(lpost, "");
     }
     else {
-        /* Nao existe sub-arvore esquerda. Coloca uma
-        "folha falsa" invisivel para tentar garantir
-        que a sub-arvore direita  seja desenhada um pouco
-        para a direita */
-
         sprintf(lkey, "null");
         sprintf(lpreamb, "%s%s%s;\n", ident, lkey, NullNode);
         sprintf(lpost, "%s", invisEdge);
@@ -499,7 +466,6 @@ void print_dmpt(AvlTreeNode_t _node, FILE *dmptFILE){
         sprintf(rpost, "");
     }
     else{
-        /* NÃ£o existe sub-arvore direita. Coloca "folha falsa" invisivel" */
         sprintf(rkey, "null");
         sprintf(rpreamb, "%s%s%s;\n", ident, rkey, NullNode);
         sprintf(rpost, "%s", invisEdge);
