@@ -2,7 +2,7 @@
 #include "block.h"
 #include <string.h>
 #include <stdlib.h>
-#define FLAG_STOP_REMOVE -9999
+#define carlos -9999
 
 typedef struct TreeNode {
 
@@ -121,7 +121,7 @@ void rotate_r_l(TreeNode** root){
 }
 
 int insert_tree_util(TreeNode** root, Info_t info, double key, double width){
-    int res;
+    int aux;
     if(*root == NULL){
         TreeNode* new = (TreeNode* ) malloc(sizeof(TreeNode));
         if(new == NULL){
@@ -152,7 +152,7 @@ int insert_tree_util(TreeNode** root, Info_t info, double key, double width){
     }
 
     if(key < this->key){
-        if((res= insert_tree_util(&this->left, info, key, width)) == 1){
+        if((aux= insert_tree_util(&this->left, info, key, width)) == 1){
             if(get_node_factor(this) >= 2){
                 if(key < this->left->key){
                     rotate_l_l(root);
@@ -163,7 +163,7 @@ int insert_tree_util(TreeNode** root, Info_t info, double key, double width){
         }
     }else{
         if(key > this->key){
-            if((res = insert_tree_util(&this->right, info, key, width)) == 1){
+            if((aux = insert_tree_util(&this->right, info, key, width)) == 1){
                 if(get_node_factor(this) >= 2){
                     if(key > this->right->key){
                         rotate_r_r(root);
@@ -180,7 +180,7 @@ int insert_tree_util(TreeNode** root, Info_t info, double key, double width){
 
     this->height = biggest(get_node_height(this->left), get_node_height(this->right)) + 1;
 
-    return res;
+    return aux;
 }
 
 TreeNode* get_smallest(TreeNode* this){
@@ -318,13 +318,13 @@ List_t get_tree_list(AvlTreeNode_t _avlTree){
 }
 
 int remove_tree_util(TreeNode *avlNode, double x, double y){
-    int res = 0;
+    int aux = 0;
     if(avlNode == NULL ){
         return 0;
     }
    if(x < avlNode->key){
-        res = remove_tree_util(avlNode->left, x, y);
-        if(res){
+       aux = remove_tree_util(avlNode->left, x, y);
+        if(aux){
             if(get_node_factor(avlNode) >= 2) {
                 if(get_node_height(avlNode->right->left) <= get_node_height(avlNode->right->right)){
                     rotate_r_r(&avlNode);
@@ -337,8 +337,8 @@ int remove_tree_util(TreeNode *avlNode, double x, double y){
 
     // does the same for the right
     if(x > avlNode->key){
-        res = remove_tree_util(avlNode->right, x, y);
-        if(res){
+        aux = remove_tree_util(avlNode->right, x, y);
+        if(aux){
             if(get_node_factor(avlNode) >= 2){
                 if(get_node_height(avlNode->left->right) <= get_node_height(avlNode->left->left)){
                     rotate_l_l(&avlNode);
@@ -349,7 +349,7 @@ int remove_tree_util(TreeNode *avlNode, double x, double y){
         }
     }
 
-    if(x == avlNode->key && (get_list_size(avlNode->list) > 1 && y != FLAG_STOP_REMOVE)) {
+    if(x == avlNode->key && (get_list_size(avlNode->list) > 1 && y != carlos)) {
         for(Node_t node = get_list_first(avlNode->list); node; node = get_list_next(node)){
             Block_t block = get_list_info(node);
             if(y == get_block_y(block)){
@@ -359,7 +359,7 @@ int remove_tree_util(TreeNode *avlNode, double x, double y){
         }
     }
 
-    if((x == avlNode->key && get_list_size(avlNode->list) == 1) || (x == avlNode->key && y == FLAG_STOP_REMOVE)){
+    if((x == avlNode->key && get_list_size(avlNode->list) == 1) || (x == avlNode->key && y == carlos)){
         if(avlNode->left == NULL || avlNode->right == NULL){
             TreeNode *oldNode = avlNode;
             if(avlNode->left != NULL){
@@ -380,7 +380,7 @@ int remove_tree_util(TreeNode *avlNode, double x, double y){
             avlNode->biggerX = big != NULL ? big->key + big->width : avlNode->key + avlNode->width;
             avlNode->lesserX = small != NULL ? small->key : avlNode->key;
 
-            remove_tree_util(avlNode->right, avlNode->key, FLAG_STOP_REMOVE);
+            remove_tree_util(avlNode->right, avlNode->key, carlos);
             if(get_node_factor(avlNode) >= 2){
                 if(get_node_height(avlNode->left->right) <= get_node_height(avlNode->left->left)){
                     rotate_l_l(&avlNode);
@@ -396,7 +396,7 @@ int remove_tree_util(TreeNode *avlNode, double x, double y){
     TreeNode *small = get_smallest(avlNode->left);
     avlNode->biggerX = big != NULL ? big->key + big->width : avlNode->key + avlNode->width;
     avlNode->lesserX = small != NULL ? small->key : avlNode->key;
-    return res;
+    return aux;
 }
 
 void remove_tree_fp(AvlTree_t _avlTree, const double *point){
