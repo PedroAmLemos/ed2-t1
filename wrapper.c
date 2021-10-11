@@ -20,7 +20,6 @@ void remove_tree_hash_table(HashTable_t _hashTable, AvlTree_t _tree, Int_t _poin
     char *cep = NULL;
     Block_t block = get_tree_node_list_info(_tree, point, get_block_point);
     cep = get_block_cep(block);
-//    printf("%s\n", cep);
     if(block != NULL){
         remove_tree_fp(_tree, point);
         if(flag) {

@@ -54,16 +54,6 @@ void print_block(Block_t block_, FILE *svgFile) {
     fprintf(svgFile,"\t<rect x=\"%f\" y=\"%f\" width=\"%f\" height=\"%f\" fill=\"%s\" opacity=\"0.8\" stroke=\"%s\" stroke-width=\"%s\"/>\n",
             block->point[0], block->point[1], block->width, block->height, block->fill, block->stroke, block->sw);
 }
-
-void print_catac_block(Block_t _block, FILE *svgFile){
-    Block *block = (Block*) _block;
-    if(block == NULL){
-        return;
-    }
-    fprintf(svgFile,"\t<rect x=\"%f\" y=\"%f\" width=\"%f\" height=\"%f\" fill=\"#AB37C8\" opacity=\"0.5\" stroke=\"#AA0044\" stroke-width=\"%s\"/>\n",
-            block->point[0], block->point[1], block->width, block->height, block->sw);
-}
-
 void remove_block(HashTable_t _hashTable, AvlTree_t _tree, void(*remove)(void*, void*, void*, int), void *parameter){
     remove(_hashTable, _tree, parameter, 1);
 }
@@ -109,5 +99,14 @@ int is_block_inside_rect(Block_t _block, double x2, double y2, double w2, double
     w1 = block->width;
     h1 = block->height;
     return x1 >= x2 && y1 >= y2 && x1 + w1 <= x2 + w2 && y1 + h1 <= y2 + h2;
+}
+
+void print_catac_block(Block_t _block, FILE *svgFile){
+    Block *block = (Block*) _block;
+    if(block == NULL){
+        return;
+    }
+    fprintf(svgFile,"\t<rect x=\"%f\" y=\"%f\" width=\"%f\" height=\"%f\" fill=\"#AB37C8\" opacity=\"0.5\" stroke=\"#AA0044\" stroke-width=\"%s\"/>\n",
+            block->point[0], block->point[1], block->width, block->height, block->sw);
 }
 

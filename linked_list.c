@@ -1,5 +1,4 @@
 #include "linked_list.h"
-#include "block.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -74,7 +73,6 @@ void remove_list(List_t _list, void(*remove)(void*)){
 }
 
 Node_t get_list_first(List_t list_){
-//    if(list_ == NULL) return NULL;
     List *list = (List*) list_;
     return list->first;
 }
@@ -85,7 +83,6 @@ Node_t get_list_next(Node_t node_){
 }
 
 Info_t get_list_info(Node_t node_){
-    if(node_ == NULL) return NULL;
     Node *list = (Node*) node_;
 
     return list->info;
@@ -94,17 +91,5 @@ Info_t get_list_info(Node_t node_){
 int get_list_size(List_t _list){
     List *list = (List*) _list;
     return list->size;
-}
-
-void get_points_inside(List_t _list, List_t storage, double x, double y, double w, double h){
-    List *list = (List*) _list;
-    Block_t block = NULL;
-    for(Node *node = list->first; node != NULL; node = node->next) {
-        block = node->info;
-        if(is_block_inside_rect(block, x, y, w, h)) {
-            insert_list(storage, get_block_cep(block));
-        }
-    }
-
 }
 
