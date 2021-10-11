@@ -184,18 +184,6 @@ int insert_tree_util(TreeNode** root, Info_t info, double key, double width){
     return aux;
 }
 
-int insert_tree(AvlTree_t tree, Info_t info, double key, double width){
-    Tree* treeAux = (Tree* ) tree;
-    int aux = insert_tree_util(&treeAux->root, info, key, width);
-
-    if(aux == 1){
-        change_bigger_less(treeAux->root);
-        treeAux->size++;
-    }
-
-    return aux;
-
-}
 
 TreeNode* get_smallest(TreeNode* this){
     if(this == NULL)
@@ -234,6 +222,19 @@ void change_bigger_less(AvlTree_t _root){
     TreeNode *small = get_smallest(root->left);
     root->biggerX = big != NULL ? big->key + big->width : root->key + root->width;
     root->lesserX = small != NULL ? small->key : root->key;
+
+}
+
+int insert_tree(AvlTree_t tree, Info_t info, double key, double width){
+    Tree* treeAux = (Tree* ) tree;
+    int aux = insert_tree_util(&treeAux->root, info, key, width);
+
+    if(aux == 1){
+        change_bigger_less(treeAux->root);
+        treeAux->size++;
+    }
+
+    return aux;
 
 }
 
