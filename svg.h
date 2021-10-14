@@ -60,4 +60,11 @@ void print_circle(double cx, double cy, double r, char stroke[], char fill[], ch
  */
 void print_rectangle_dashed(double x, double y, double w, double h, FILE *svgFile);
 
+/*
+ * Imprime um retângulo.
+ * Pré: recebe os valores para impressão e o arquivo svg.
+ * Pós:
+ */
+void print_rectangle(double x, double y, double w, double h, char *fill, char *stroke, FILE *svgFile);
+
 #endif //SVG_H_

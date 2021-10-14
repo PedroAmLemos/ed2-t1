@@ -317,91 +317,92 @@ List_t get_tree_list(AvlTreeNode_t _avlTree){
     return node->list;
 }
 
-int remove_tree_util(TreeNode *avlNode, double x, double y){
+int remove_tree_util(TreeNode **avlNode, double x, double y){
     int aux = 0;
-    if(avlNode == NULL ){
+    if(*avlNode == NULL ){
         return 0;
     }
-   if(x < avlNode->key){
-       aux = remove_tree_util(avlNode->left, x, y);
+   if(x < (*avlNode)->key){
+       aux = remove_tree_util(&(*avlNode)->left, x, y);
         if(aux){
-            if(get_node_factor(avlNode) >= 2) {
-                if(get_node_height(avlNode->right->left) <= get_node_height(avlNode->right->right)){
-                    rotate_r_r(&avlNode);
+            if(get_node_factor(*avlNode) >= 2) {
+                if(get_node_height((*avlNode)->right->left) <= get_node_height((*avlNode)->right->right)){
+                    rotate_r_r(avlNode);
                 }else{
-                    rotate_l_r(&avlNode);
+                    rotate_l_r(avlNode);
                 }
             }
         }
     }
 
     // does the same for the right
-    if(x > avlNode->key){
-        aux = remove_tree_util(avlNode->right, x, y);
+    if(x > (*avlNode)->key){
+        aux = remove_tree_util(&(*avlNode)->right, x, y);
         if(aux){
-            if(get_node_factor(avlNode) >= 2){
-                if(get_node_height(avlNode->left->right) <= get_node_height(avlNode->left->left)){
-                    rotate_l_l(&avlNode);
+            if(get_node_factor(*avlNode) >= 2){
+                if(get_node_height((*avlNode)->left->right) <= get_node_height((*avlNode)->left->left)){
+                    rotate_l_l(avlNode);
                 }else{
-                    rotate_l_r(&avlNode);
+                    rotate_l_r(avlNode);
                 }
             }
         }
     }
 
-    if(x == avlNode->key && (get_list_size(avlNode->list) > 1 && y != carlos)) {
-        for(Node_t node = get_list_first(avlNode->list); node; node = get_list_next(node)){
+    if(x == (*avlNode)->key && (get_list_size((*avlNode)->list) > 1 && y != carlos)) {
+        for(Node_t node = get_list_first((*avlNode)->list); node; node = get_list_next(node)){
             Block_t block = get_list_info(node);
             if(y == get_block_y(block)){
-                remove_list_node(avlNode->list, node, NULL);
+                remove_list_node((*avlNode)->list, node, NULL);
                 return 1;
             }
         }
     }
 
-    if((x == avlNode->key && get_list_size(avlNode->list) == 1) || (x == avlNode->key && y == carlos)){
-        if(avlNode->left == NULL || avlNode->right == NULL){
-            TreeNode *oldNode = avlNode;
-            if(avlNode->left != NULL){
-                avlNode = avlNode->left;
+    if((x == (*avlNode)->key && get_list_size((*avlNode)->list) == 1) || (x == (*avlNode)->key && y == carlos)){
+        if((*avlNode)->left == NULL || (*avlNode)->right == NULL){
+            TreeNode* oldNode = (*avlNode);
+            if((*avlNode)->left != NULL){
+                *avlNode = (*avlNode)->left;
             }else{
-                avlNode = avlNode->right;
+                *avlNode = (*avlNode)->right;
             }
 
+            remove_list(oldNode->list, NULL);
             free(oldNode);
         }else{
-            TreeNode *tmp = get_smallest(avlNode->right);
+            TreeNode *tmp = get_smallest((*avlNode)->right);
 
-            remove_list(avlNode->list, free);
-            avlNode->list = tmp->list;
-            avlNode->key = tmp->key;
-            TreeNode *big = get_biggest(avlNode->right);
-            TreeNode *small = get_smallest(avlNode->left);
-            avlNode->biggerX = big != NULL ? big->key + big->width : avlNode->key + avlNode->width;
-            avlNode->lesserX = small != NULL ? small->key : avlNode->key;
+            remove_list((*avlNode)->list, NULL);
+            (*avlNode)->list = tmp->list;
+            (*avlNode)->key = tmp->key;
+            TreeNode *big = get_biggest((*avlNode)->right);
+            TreeNode *small = get_smallest((*avlNode)->left);
+            (*avlNode)->biggerX = big != NULL ? big->key + big->width : (*avlNode)->key + (*avlNode)->width;
+            (*avlNode)->lesserX = small != NULL ? small->key : (*avlNode)->key;
 
-            remove_tree_util(avlNode->right, avlNode->key, carlos);
-            if(get_node_factor(avlNode) >= 2){
-                if(get_node_height(avlNode->left->right) <= get_node_height(avlNode->left->left)){
-                    rotate_l_l(&avlNode);
+            remove_tree_util(&(*avlNode)->right, (*avlNode)->key, carlos);
+            if(get_node_factor(*avlNode) >= 2){
+                if(get_node_height((*avlNode)->left->right) <= get_node_height((*avlNode)->left->left)){
+                    rotate_l_l(avlNode);
                 }else{
-                    rotate_l_r(&avlNode);
+                    rotate_l_r(avlNode);
                 }
             }
         }
         return 1;
     }
 
-    TreeNode *big = get_biggest(avlNode->right);
-    TreeNode *small = get_smallest(avlNode->left);
-    avlNode->biggerX = big != NULL ? big->key + big->width : avlNode->key + avlNode->width;
-    avlNode->lesserX = small != NULL ? small->key : avlNode->key;
+    TreeNode *big = get_biggest((*avlNode)->right);
+    TreeNode *small = get_smallest((*avlNode)->left);
+    (*avlNode)->biggerX = big != NULL ? big->key + big->width : (*avlNode)->key + (*avlNode)->width;
+    (*avlNode)->lesserX = small != NULL ? small->key : (*avlNode)->key;
     return aux;
 }
 
 void remove_tree_fp(AvlTree_t _avlTree, const double *point){
     Tree *tree = (Tree*) _avlTree;
-    remove_tree_util(tree->root, point[0], point[1]);
+    remove_tree_util(&tree->root, point[0], point[1]);
 }
 
 void print_dmpt(AvlTreeNode_t _node, FILE *dmptFILE){

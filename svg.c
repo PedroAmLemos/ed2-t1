@@ -44,3 +44,7 @@ void print_circle(double cx, double cy, double r, char stroke[], char fill[], ch
 void print_rectangle_dashed(double x, double y, double w, double h, FILE *svgFile){
     fprintf(svgFile,"\t<rect x=\"%f\" y=\"%f\" width=\"%f\" height=\"%f\" opacity=\"0.8\" fill=\"none\" stroke=\"black\" stroke-width=\"3px\" stroke-dasharray=\"20\"/>\n", x, y, w, h);
 }
+
+void print_rectangle(double x, double y, double w, double h, char *fill, char *stroke, FILE *svgFile){
+    fprintf(svgFile,"\t<rect x=\"%f\" y=\"%f\" width=\"%f\" height=\"%f\" opacity=\"0.8\" fill=\"%s\" stroke=\"%s\" stroke-width=\"3px\" />\n", x, y, w, h, fill, stroke);
+}

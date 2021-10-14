@@ -75,6 +75,7 @@ void qry_treat(City_t city, FILE *qryFile, FILE *qrySVGFile, FILE *qryTXTFile, c
         }
         if(strcmp(aux, "dmpt") == 0){
             fscanf(qryFile, "%s", dmptFilename);
+            fprintf(qryTXTFile, "dmpt\n");
             dmpt(city, dmptFilename, outPath);
         }
         if(strcmp(aux, "catac") == 0){
@@ -83,7 +84,7 @@ void qry_treat(City_t city, FILE *qryFile, FILE *qrySVGFile, FILE *qryTXTFile, c
             catac(city, x, y, w, h, qryTXTFile, qrySVGFile);
         }
     }
-    print_tree(get_tree_root(_blocksTree), qrySVGFile, print_block);
+    print_hash_table(get_city_blocks_table(city), qrySVGFile, print_block);
     close_svg(qrySVGFile);
 
 }

@@ -420,18 +420,18 @@ void dmpt(City_t city, char *fileName, char *outPath){
 
 
 }
+
 void catac(City_t city, double x, double y, double w, double h, FILE *txtFile, FILE *svgFile){
     HashTable_t blocksTable = get_city_blocks_table(city);
     AvlTree_t tree = get_city_blocks_tree(city);
-    Block_t block;
     char *cep;
 
     List_t cepsToRemove = get_inside(tree, x, y, w, h);
+    print_rectangle(x, y, w, h, "#AB37C8", "#AA0044", svgFile);
+
 
     for(Node_t node = get_list_first(cepsToRemove); node != NULL; node = get_list_next(node)){
         cep = get_list_info(node);
-        block = get_item(blocksTable, cep);
-        print_catac_block(block, svgFile);
         catac_remove(city, cep, txtFile);
     }
 
