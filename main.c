@@ -5,16 +5,16 @@
 
 int main(int argc, char *argv[]) {
     int i = 1;
-    char *entryPath = NULL; // bed diretorio de entrada - opcional
-    char *outPath = NULL;   // bsd diretorio de saida - obrigatorio
-    char *geo = NULL; // arquivo de descricao, sob o diretorio bed - obrigatorio
-    char *qry = NULL; // arquivo de consultas, sob o diretorio bed - obrigatorio
+    char *entryPath = NULL; // bed diretório de entrada, opcional
+    char *outPath = NULL;   // bsd diretório de saida, obrigatório
+    char *geo = NULL;       // arquivo de descrição, sob o diretório bed, obrigatório
+    char *qry = NULL;       // arquivo de consultas, sob o diretório bed, obrigatório
     char *pm = NULL;
     while (i < argc) {
         if (strcmp("-e", argv[i]) == 0) {
             i++;
             if (argv[i] == NULL) {
-                printf("Erro - Sem parametros em -e\n");
+                printf("Erro - Sem parâmetros em -e\n");
                 exit(1);
             }
             entryPath = malloc((strlen(argv[i]) + 1) * sizeof(char));
@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
         } else if (strcmp("-f", argv[i]) == 0) {
             i++;
             if (argv[i] == NULL) {
-                printf("Erro - Sem Parametros em -f\n");
+                printf("Erro - Sem parâmetros em -f\n");
                 exit(1);
             }
             geo = malloc((strlen(argv[i]) + 1) * sizeof(char));
@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
         } else if (strcmp("-o", argv[i]) == 0) {
             i++;
             if (argv[i] == NULL) {
-                printf("Erro - Sem Parameters em -o\n");
+                printf("Erro - Sem parâmetros em -o\n");
                 exit(1);
             }
             outPath = malloc((strlen(argv[i]) + 1) * sizeof(char));
