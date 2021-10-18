@@ -148,7 +148,6 @@ void oloc_i(City_t city, double x, double y, double w, double h, FILE *qryTXTFil
             if(block != NULL){
                 if(is_block_inside_rect(block, x, y, w, h)){
                     print_property(property, qryTXTFile);
-                    print_rectangle_dashed(x, y, w, h, qrySVGFile);
                     face = get_property_side(property);
                     if(face == 'N'){
                         print_text(get_block_x(block) + get_block_width(block)/2, get_block_y(block) + get_block_height(block), "*", qrySVGFile);
